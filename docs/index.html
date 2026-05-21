@@ -27,13 +27,13 @@
     body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
     /* ── 헤더 ── */
-    header {
-      background: linear-gradient(135deg, #c678a8 0%, #7c4dff 100%);
-      color: #fff; padding: 28px 16px 22px; text-align: center;
-    }
+    header { background: linear-gradient(135deg, #c678a8 0%, #7c4dff 100%); color: #fff; padding: 28px 16px 22px; text-align: center; }
     header h1 { font-size: 2rem; font-weight: 700; letter-spacing: -1px; }
     header p { margin-top: 5px; font-size: 0.88rem; opacity: 0.85; }
-    .search-wrap { display: flex; gap: 8px; max-width: 540px; margin: 16px auto 0; }
+
+    /* ── 검색 + 자동완성 ── */
+    .search-wrap { position: relative; max-width: 540px; margin: 16px auto 0; }
+    .search-row { display: flex; gap: 8px; }
     .search-wrap input {
       flex: 1; padding: 13px 18px; border: none; border-radius: 12px;
       font-size: 1rem; font-family: inherit; outline: none; min-width: 0;
@@ -44,23 +44,29 @@
       font-weight: 700; font-family: inherit; cursor: pointer; white-space: nowrap;
     }
     .search-wrap button:hover { background: rgba(255,255,255,0.35); }
+    /* 자동완성 드롭다운 */
+    .ac-dropdown {
+      display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 52px;
+      background: #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      z-index: 200; overflow: hidden;
+    }
+    .ac-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 11px 16px; cursor: pointer; transition: background 0.1s; gap: 8px;
+    }
+    .ac-item:hover, .ac-item.focused { background: var(--primary-light); }
+    .ac-label { font-size: 0.9rem; font-weight: 600; color: var(--text); }
+    .ac-sub { font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
     .last-updated { margin-top: 10px; font-size: 0.76rem; opacity: 0.65; }
 
     /* ── sticky 탭 ── */
     .tabs-outer { position: sticky; top: 0; z-index: 100; background: var(--bg); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
     .tabs-scroll-wrap { position: relative; overflow: hidden; }
-    .tabs-scroll-wrap::after {
-      content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 48px;
-      background: linear-gradient(to right, transparent, var(--bg)); pointer-events: none;
-    }
+    .tabs-scroll-wrap::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 48px; background: linear-gradient(to right, transparent, var(--bg)); pointer-events: none; }
     .tabs-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 16px; scrollbar-width: none; }
     .tabs-wrap::-webkit-scrollbar { display: none; }
     .tabs { display: flex; gap: 8px; width: max-content; }
-    .tab {
-      padding: 7px 18px; border-radius: 20px; background: var(--card);
-      border: 2px solid var(--border); cursor: pointer; font-size: 0.84rem;
-      font-weight: 500; white-space: nowrap; transition: all 0.15s; font-family: inherit;
-    }
+    .tab { padding: 7px 18px; border-radius: 20px; background: var(--card); border: 2px solid var(--border); cursor: pointer; font-size: 0.84rem; font-weight: 500; white-space: nowrap; transition: all 0.15s; font-family: inherit; }
     .tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .tab:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
 
@@ -68,79 +74,42 @@
     main { max-width: 900px; margin: 0 auto; padding: 16px 16px 80px; }
 
     /* ── 섹션 제목 ── */
-    .section-title {
-      font-size: 0.95rem; font-weight: 700; color: #555;
-      margin: 22px 0 12px; display: flex; align-items: center; gap: 8px;
-    }
+    .section-title { font-size: 0.95rem; font-weight: 700; color: #555; margin: 22px 0 12px; display: flex; align-items: center; gap: 8px; }
     .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
     /* ── HOT 섹션 ── */
     .hot-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; margin: 0 -4px; }
     .hot-scroll::-webkit-scrollbar { display: none; }
     .hot-list { display: flex; gap: 10px; padding: 4px 4px 8px; width: max-content; }
-    .hot-card {
-      width: 150px; background: var(--card); border-radius: var(--radius);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07); text-decoration: none;
-      color: inherit; overflow: hidden; transition: transform 0.15s, box-shadow 0.15s;
-      border: 2px solid transparent; flex-shrink: 0;
-    }
+    .hot-card { width: 150px; background: var(--card); border-radius: var(--radius); box-shadow: 0 2px 10px rgba(0,0,0,0.07); text-decoration: none; color: inherit; overflow: hidden; transition: transform 0.15s, box-shadow 0.15s; border: 2px solid transparent; flex-shrink: 0; }
     .hot-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.12); border-color: var(--border); }
-    .hot-card-img {
-      width: 100%; height: 110px; object-fit: cover; background: var(--bg);
-      display: block;
-    }
-    .hot-card-placeholder {
-      width: 100%; height: 110px; background: linear-gradient(135deg, #f0e0f5, var(--border));
-      display: flex; align-items: center; justify-content: center; font-size: 2rem;
-    }
+    .hot-card-img { width: 100%; height: 110px; object-fit: cover; background: var(--bg); display: block; }
+    .hot-card-placeholder { width: 100%; height: 110px; background: linear-gradient(135deg, #f0e0f5, var(--border)); display: flex; align-items: center; justify-content: center; font-size: 2rem; }
     .hot-card-body { padding: 10px 10px 12px; }
-    .hot-card-title {
-      font-size: 0.78rem; font-weight: 500; color: var(--text);
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-      line-height: 1.4; margin-bottom: 6px;
-    }
+    .hot-card-title { font-size: 0.78rem; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; margin-bottom: 6px; }
     .hot-card-price { font-size: 0.95rem; font-weight: 700; color: var(--primary); }
     .hot-card-badge { font-size: 0.68rem; color: var(--muted); margin-top: 3px; }
 
     /* ── 즐겨찾기 ── */
     .fav-grid { display: flex; gap: 8px; flex-wrap: wrap; }
-    .fav-chip {
-      display: flex; align-items: center; gap: 6px;
-      padding: 7px 14px; border-radius: 20px;
-      background: linear-gradient(135deg, #f3eeff, #fce4f5);
-      border: 2px solid var(--border); cursor: pointer;
-      font-size: 0.85rem; font-weight: 600; transition: all 0.15s;
-    }
+    .fav-chip { display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 20px; background: linear-gradient(135deg, #f3eeff, #fce4f5); border: 2px solid var(--border); cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.15s; }
     .fav-chip:hover { border-color: var(--primary); }
-    .fav-chip .fav-x { font-size: 0.8rem; color: var(--muted); margin-left: 2px; }
+    .fav-x { font-size: 0.8rem; color: var(--muted); margin-left: 2px; }
 
     /* ── 그룹 시세 카드 ── */
     .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-    .stat-card {
-      background: var(--card); border-radius: var(--radius); padding: 14px 16px;
-      cursor: pointer; border: 2px solid transparent; transition: all 0.15s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative;
-    }
+    .stat-card { background: var(--card); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; border: 2px solid transparent; transition: all 0.15s; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative; }
     .stat-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.1); }
     .stat-card.selected { border-color: var(--primary); background: var(--primary-light); }
     .g-name { font-weight: 700; font-size: 0.92rem; padding-right: 22px; }
-    .g-avg { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-top: 5px; }
+    .g-avg { font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-top: 5px; }
     .g-sub { font-size: 0.73rem; color: var(--muted); margin-top: 2px; }
-    .star-btn {
-      position: absolute; top: 10px; right: 10px;
-      background: none; border: none; cursor: pointer;
-      font-size: 1rem; line-height: 1; padding: 2px;
-      transition: transform 0.15s;
-    }
+    .star-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; font-size: 1rem; line-height: 1; padding: 2px; transition: transform 0.15s; }
     .star-btn:hover { transform: scale(1.3); }
 
     /* ── 멤버 카드 ── */
     .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
-    .member-card {
-      background: var(--card); border-radius: 12px; padding: 12px 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer;
-      border: 2px solid transparent; transition: all 0.15s; position: relative;
-    }
+    .member-card { background: var(--card); border-radius: 12px; padding: 12px 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; border: 2px solid transparent; transition: all 0.15s; position: relative; }
     .member-card:hover { border-color: var(--accent); }
     .member-card.selected { border-color: var(--primary); background: var(--primary-light); }
     .m-name { font-weight: 700; font-size: 0.88rem; padding-right: 20px; }
@@ -150,119 +119,65 @@
 
     /* ── 필터 ── */
     .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
-    .filter-bar select {
-      padding: 8px 12px; border: 2px solid var(--border); border-radius: 10px;
-      font-size: 0.85rem; font-family: inherit; background: var(--card); color: var(--text); outline: none; cursor: pointer;
-    }
+    .filter-bar select { padding: 8px 12px; border: 2px solid var(--border); border-radius: 10px; font-size: 0.85rem; font-family: inherit; background: var(--card); color: var(--text); outline: none; cursor: pointer; }
     .filter-bar select:focus { border-color: var(--primary); }
     .price-presets { display: flex; gap: 6px; flex-wrap: wrap; }
-    .preset-btn {
-      padding: 7px 13px; border-radius: 20px; background: var(--card);
-      border: 2px solid var(--border); font-size: 0.78rem; font-weight: 600;
-      font-family: inherit; cursor: pointer; transition: all 0.15s; white-space: nowrap; color: var(--text);
-    }
+    .preset-btn { padding: 7px 13px; border-radius: 20px; background: var(--card); border: 2px solid var(--border); font-size: 0.78rem; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.15s; white-space: nowrap; color: var(--text); }
     .preset-btn:hover { border-color: var(--accent); color: var(--accent); }
     .preset-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .share-btn {
-      margin-left: auto; padding: 7px 16px; border-radius: 20px;
-      background: var(--card); border: 2px solid var(--border);
-      font-size: 0.82rem; font-weight: 600; font-family: inherit; cursor: pointer;
-      transition: all 0.15s; color: var(--text); display: flex; align-items: center; gap: 5px;
-    }
+    .share-btn { margin-left: auto; padding: 7px 16px; border-radius: 20px; background: var(--card); border: 2px solid var(--border); font-size: 0.82rem; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.15s; color: var(--text); display: flex; align-items: center; gap: 5px; }
     .share-btn:hover { border-color: var(--primary); color: var(--primary); }
 
     /* ── 거래 목록 ── */
     .result-info { font-size: 0.82rem; color: var(--muted); margin-bottom: 10px; }
     .listings { display: flex; flex-direction: column; gap: 8px; }
-    .listing-card {
-      background: var(--card); border-radius: var(--radius); padding: 12px 14px;
-      display: flex; gap: 12px; align-items: flex-start;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-decoration: none; color: inherit;
-      transition: box-shadow 0.15s; border: 2px solid transparent;
-    }
+    .listing-card { background: var(--card); border-radius: var(--radius); padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-decoration: none; color: inherit; transition: box-shadow 0.15s; border: 2px solid transparent; }
     .listing-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); border-color: var(--border); }
     .listing-img-wrap { position: relative; flex-shrink: 0; cursor: zoom-in; }
-    .listing-img {
-      width: 64px; height: 64px; border-radius: 10px; object-fit: cover;
-      display: block; background: var(--bg); transition: opacity 0.15s;
-    }
+    .listing-img { width: 64px; height: 64px; border-radius: 10px; object-fit: cover; display: block; background: var(--bg); transition: opacity 0.15s; }
     .listing-img:hover { opacity: 0.85; }
-    .listing-img-placeholder {
-      width: 64px; height: 64px; border-radius: 10px;
-      background: linear-gradient(135deg, #f0e0f5, var(--border));
-      display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
-    }
-    .zoom-hint {
-      position: absolute; bottom: 3px; right: 3px;
-      background: rgba(0,0,0,0.45); color: #fff; border-radius: 4px;
-      font-size: 0.6rem; padding: 1px 4px; pointer-events: none;
-    }
+    .listing-img-placeholder { width: 64px; height: 64px; border-radius: 10px; background: linear-gradient(135deg, #f0e0f5, var(--border)); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+    .zoom-hint { position: absolute; bottom: 3px; right: 3px; background: rgba(0,0,0,0.45); color: #fff; border-radius: 4px; font-size: 0.6rem; padding: 1px 4px; pointer-events: none; }
     .listing-info { flex: 1; min-width: 0; }
-    .listing-title {
-      font-size: 0.88rem; font-weight: 500; line-height: 1.4;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-    }
+    .listing-title { font-size: 0.88rem; font-weight: 500; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .listing-meta { margin-top: 5px; display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
     .badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
     .badge-platform { background: #f0e0f5; color: var(--accent); }
     .badge-group { background: #e8f0fe; color: #3a60c8; }
     .badge-member { background: #e8fce8; color: #2a8a2a; }
+    /* 상대 시간 */
     .listing-date { font-size: 0.7rem; color: var(--muted); }
-    .listing-price { font-weight: 700; font-size: 1.05rem; color: var(--primary); white-space: nowrap; flex-shrink: 0; align-self: center; }
+    /* 가격 비교 태그 */
+    .price-tag { font-size: 0.68rem; font-weight: 700; padding: 2px 7px; border-radius: 8px; }
+    .price-tag.cheap { background: #e8fce8; color: #1a8a1a; }
+    .price-tag.expensive { background: #fce8e8; color: #c02020; }
+    .price-tag.avg-price { background: #f0f0f0; color: #666; }
+    .listing-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; align-self: center; }
+    /* 만원 단위 가격 */
+    .listing-price { font-weight: 700; font-size: 1.05rem; color: var(--primary); white-space: nowrap; }
 
     /* ── 더보기 ── */
-    .load-more {
-      display: block; margin: 20px auto 0; padding: 12px 36px;
-      background: var(--card); border: 2px solid var(--accent); color: var(--accent);
-      border-radius: var(--radius); font-size: 0.95rem; font-weight: 700;
-      font-family: inherit; cursor: pointer; transition: all 0.15s;
-    }
+    .load-more { display: block; margin: 20px auto 0; padding: 12px 36px; background: var(--card); border: 2px solid var(--accent); color: var(--accent); border-radius: var(--radius); font-size: 0.95rem; font-weight: 700; font-family: inherit; cursor: pointer; transition: all 0.15s; }
     .load-more:hover { background: var(--accent); color: #fff; }
 
     /* ── 빈 상태 ── */
     .empty-state { text-align: center; padding: 48px 20px; color: var(--muted); }
     .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
     .empty-state p { font-size: 0.95rem; margin-bottom: 16px; }
-    .empty-state button {
-      padding: 10px 24px; border-radius: 12px;
-      background: var(--primary); color: #fff; border: none;
-      font-size: 0.9rem; font-weight: 700; font-family: inherit; cursor: pointer;
-    }
+    .empty-state button { padding: 10px 24px; border-radius: 12px; background: var(--primary); color: #fff; border: none; font-size: 0.9rem; font-weight: 700; font-family: inherit; cursor: pointer; }
 
     /* ── 라이트박스 ── */
-    .lightbox {
-      display: none; position: fixed; inset: 0; z-index: 999;
-      background: rgba(0,0,0,0.88); align-items: center; justify-content: center;
-      cursor: zoom-out;
-    }
+    .lightbox { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,0.88); align-items: center; justify-content: center; cursor: zoom-out; }
     .lightbox.open { display: flex; }
-    .lightbox img {
-      max-width: 90vw; max-height: 88vh; border-radius: 12px;
-      object-fit: contain; box-shadow: 0 8px 40px rgba(0,0,0,0.5);
-    }
-    .lightbox-close {
-      position: fixed; top: 18px; right: 22px;
-      color: #fff; font-size: 2rem; cursor: pointer; line-height: 1;
-      background: rgba(255,255,255,0.15); border: none;
-      border-radius: 50%; width: 40px; height: 40px;
-      display: flex; align-items: center; justify-content: center;
-    }
+    .lightbox img { max-width: 90vw; max-height: 88vh; border-radius: 12px; object-fit: contain; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
+    .lightbox-close { position: fixed; top: 18px; right: 22px; color: #fff; font-size: 2rem; cursor: pointer; background: rgba(255,255,255,0.15); border: none; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
 
     /* ── 토스트 ── */
-    .toast {
-      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
-      background: #1a1a2e; color: #fff; padding: 12px 24px; border-radius: 12px;
-      font-size: 0.88rem; font-weight: 600; z-index: 9999;
-      transition: transform 0.3s ease; pointer-events: none; white-space: nowrap;
-    }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1a1a2e; color: #fff; padding: 12px 24px; border-radius: 12px; font-size: 0.88rem; font-weight: 600; z-index: 9999; transition: transform 0.3s ease; pointer-events: none; white-space: nowrap; }
     .toast.show { transform: translateX(-50%) translateY(0); }
 
     .loading { text-align: center; padding: 48px 0; color: var(--muted); }
-    .spinner {
-      display: inline-block; width: 34px; height: 34px;
-      border: 3px solid var(--border); border-top-color: var(--primary);
-      border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 10px;
-    }
+    .spinner { display: inline-block; width: 34px; height: 34px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 10px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ── 모바일 ── */
@@ -276,6 +191,7 @@
       .share-btn span { display: none; }
       .hot-card { width: 130px; }
       .hot-card-img, .hot-card-placeholder { height: 90px; }
+      .ac-dropdown { right: 0; }
     }
   </style>
 </head>
@@ -285,8 +201,11 @@
   <h1>💜 포카시세</h1>
   <p>아이돌 포토카드 실시간 시세 · 번개장터 · 중고나라</p>
   <div class="search-wrap">
-    <input type="text" id="searchInput" placeholder="아이돌, 멤버, 포카 이름 검색..." />
-    <button onclick="doSearch()">검색</button>
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="아이돌, 멤버, 포카 이름 검색..." autocomplete="off" />
+      <button onclick="doSearch()">검색</button>
+    </div>
+    <div class="ac-dropdown" id="acDropdown"></div>
   </div>
   <div class="last-updated" id="lastUpdated"></div>
 </header>
@@ -302,29 +221,24 @@
 </div>
 
 <main>
-  <!-- HOT 포카 -->
   <div class="section-title">🔥 지금 HOT 포카</div>
   <div class="hot-scroll"><div class="hot-list" id="hotList"></div></div>
 
-  <!-- 즐겨찾기 -->
   <div id="favSection" style="display:none">
     <div class="section-title">⭐ 즐겨찾기</div>
     <div class="fav-grid" id="favGrid"></div>
   </div>
 
-  <!-- 그룹 시세 -->
   <div class="section-title">그룹별 평균 시세</div>
   <div class="stats-grid" id="statsGrid">
     <div class="loading"><div class="spinner"></div><div>불러오는 중...</div></div>
   </div>
 
-  <!-- 멤버 시세 -->
   <div id="memberSection" style="display:none">
     <div class="section-title" id="memberSectionTitle">멤버별 시세</div>
     <div class="member-grid" id="memberGrid"></div>
   </div>
 
-  <!-- 거래글 -->
   <div class="section-title" id="listingTitle">최근 거래글</div>
   <div class="filter-bar">
     <select id="sortSelect" onchange="applyFilter()">
@@ -347,13 +261,10 @@
   <button class="load-more" id="loadMoreBtn" style="display:none" onclick="loadMore()">더 보기</button>
 </main>
 
-<!-- 라이트박스 -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
   <img id="lightboxImg" src="" alt="" />
 </div>
-
-<!-- 토스트 -->
 <div class="toast" id="toast"></div>
 
 <script>
@@ -364,106 +275,162 @@ let currentSearch = "";
 let displayedCount = 20;
 let priceMin = 0;
 let priceMax = Infinity;
+let acResults = [];
+let acFocused = -1;
 
-/* ── 즐겨찾기 (localStorage) ── */
-function getFavs() {
-  try { return JSON.parse(localStorage.getItem("pocafav") || "{}"); } catch { return {}; }
-}
-function saveFavs(f) { localStorage.setItem("pocafav", JSON.stringify(f)); }
-
-function isFavGroup(g) { const f = getFavs(); return (f.groups || []).includes(g); }
-function isFavMember(g, m) { const f = getFavs(); return ((f.members || {})[g] || []).includes(m); }
-
-function toggleFavGroup(g, e) {
-  e.stopPropagation();
-  const f = getFavs();
-  f.groups = f.groups || [];
-  f.groups = f.groups.includes(g) ? f.groups.filter(x => x !== g) : [...f.groups, g];
-  saveFavs(f);
-  renderStatsGrid(); renderFavs();
-  showToast(f.groups.includes(g) ? "⭐ 즐겨찾기에 추가됐어요!" : "즐겨찾기에서 제거됐어요");
-}
-
-function toggleFavMember(g, m, e) {
-  e.stopPropagation();
-  const f = getFavs();
-  f.members = f.members || {};
-  f.members[g] = f.members[g] || [];
-  f.members[g] = f.members[g].includes(m) ? f.members[g].filter(x => x !== m) : [...f.members[g], m];
-  if (!f.members[g].length) delete f.members[g];
-  saveFavs(f);
-  renderMemberGrid(); renderFavs();
-  showToast(isFavMember(g, m) ? "⭐ 즐겨찾기에 추가됐어요!" : "즐겨찾기에서 제거됐어요");
-}
-
-function renderFavs() {
-  const f = getFavs();
-  const groups = f.groups || [];
-  const members = f.members || {};
-  const chips = [];
-  groups.forEach(g => chips.push({ label: g, group: g, member: null }));
-  Object.entries(members).forEach(([g, ms]) =>
-    ms.forEach(m => chips.push({ label: g + " · " + m, group: g, member: m }))
-  );
-  const sec = document.getElementById("favSection");
-  const grid = document.getElementById("favGrid");
-  if (!chips.length) { sec.style.display = "none"; return; }
-  sec.style.display = "block";
-  grid.innerHTML = chips.map(c => `
-    <div class="fav-chip" onclick="goFav('${escHtml(c.group)}','${c.member ? escHtml(c.member) : ''}')">
-      ⭐ ${escHtml(c.label)}
-      <span class="fav-x" onclick="removeFav(event,'${escHtml(c.group)}','${c.member ? escHtml(c.member) : ''}')">✕</span>
-    </div>`).join("");
-}
-
-function goFav(g, m) {
-  const tab = [...document.querySelectorAll(".tab")].find(t => t.textContent === g);
-  if (tab) selectGroup(g, tab);
-  else { currentGroup = g; currentMember = m || null; renderStatsGrid(); renderMemberGrid(); renderListings(); }
-  if (m) {
-    setTimeout(() => {
-      const mc = [...document.querySelectorAll(".member-card")].find(c => c.querySelector(".m-name")?.textContent === m);
-      if (mc) selectMember(m, mc);
-    }, 50);
+/* ── 만원 단위 가격 포맷 ── */
+function fmtPrice(p) {
+  if (p >= 10000) {
+    const m = p / 10000;
+    return (Number.isInteger(m) ? m : m.toFixed(1)) + "만원";
   }
-  scrollToListings();
+  return p.toLocaleString() + "원";
 }
 
-function removeFav(e, g, m) {
-  e.stopPropagation();
-  const f = getFavs();
-  if (m) {
-    f.members = f.members || {};
-    f.members[g] = (f.members[g] || []).filter(x => x !== m);
-    if (!f.members[g].length) delete f.members[g];
-  } else {
-    f.groups = (f.groups || []).filter(x => x !== g);
-  }
-  saveFavs(f);
-  renderStatsGrid(); renderMemberGrid(); renderFavs();
+/* ── 상대 시간 ── */
+function relTime(dateStr) {
+  if (!dateStr) return "";
+  const d = new Date(dateStr.replace(" ", "T") + ":00");
+  if (isNaN(d)) return dateStr;
+  const sec = Math.floor((Date.now() - d) / 1000);
+  if (sec < 60)   return "방금 전";
+  if (sec < 3600) return Math.floor(sec / 60) + "분 전";
+  if (sec < 86400) return Math.floor(sec / 3600) + "시간 전";
+  if (sec < 604800) return Math.floor(sec / 86400) + "일 전";
+  return dateStr.slice(0, 10);
 }
 
-/* ── HOT 섹션 ── */
+/* ── 가격 비교 태그 ── */
+function priceDiffTag(item) {
+  const stats = allData?.stats;
+  let avg = null;
+  if (item.member && stats?.members?.[item.group]?.[item.member])
+    avg = stats.members[item.group][item.member].avg;
+  else if (item.group && stats?.groups?.[item.group])
+    avg = stats.groups[item.group].avg;
+  if (!avg) return "";
+  const pct = Math.round((item.price - avg) / avg * 100);
+  if (pct <= -20) return `<span class="price-tag cheap">💚 ${Math.abs(pct)}% 저렴</span>`;
+  if (pct <= -10) return `<span class="price-tag cheap">↓ ${Math.abs(pct)}% 저렴</span>`;
+  if (pct >= 20)  return `<span class="price-tag expensive">↑ ${Math.abs(pct)}% 비쌈</span>`;
+  if (pct >= 10)  return `<span class="price-tag expensive">↑ ${Math.abs(pct)}% 비쌈</span>`;
+  return `<span class="price-tag avg-price">≈ 평균가</span>`;
+}
+
+/* ── HOT 섹션 (거래 건수 많은 그룹에서 최신 1개씩) ── */
 function renderHot() {
-  const items = (allData?.items || []).slice(0, 10);
+  const stats = allData?.stats?.groups || {};
+  const topGroups = Object.keys(stats).sort((a, b) => stats[b].count - stats[a].count).slice(0, 8);
+  const seen = new Set();
+  const hot = [];
+  for (const item of (allData?.items || [])) {
+    if (!item.group || !topGroups.includes(item.group)) continue;
+    if (seen.has(item.group)) continue;
+    seen.add(item.group);
+    hot.push(item);
+    if (hot.length >= 8) break;
+  }
   const list = document.getElementById("hotList");
-  if (!items.length) { list.innerHTML = '<div style="color:var(--muted);font-size:.85rem;padding:8px">데이터 없음</div>'; return; }
-  list.innerHTML = items.map(item => `
+  if (!hot.length) { list.innerHTML = '<div style="color:var(--muted);font-size:.85rem;padding:8px">데이터 없음</div>'; return; }
+  list.innerHTML = hot.map(item => `
     <a class="hot-card" href="${item.link}" target="_blank" rel="noopener noreferrer">
       ${item.image
-        ? `<img class="hot-card-img" src="${item.image}" alt="" loading="lazy"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-           <div class="hot-card-placeholder" style="display:none">💜</div>`
+        ? `<img class="hot-card-img" src="${item.image}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="hot-card-placeholder" style="display:none">💜</div>`
         : `<div class="hot-card-placeholder">💜</div>`}
       <div class="hot-card-body">
         <div class="hot-card-title">${escHtml(item.title)}</div>
-        <div class="hot-card-price">${item.price.toLocaleString()}원</div>
+        <div class="hot-card-price">${fmtPrice(item.price)}</div>
         <div class="hot-card-badge">${item.platform}${item.group ? " · " + item.group : ""}</div>
       </div>
     </a>`).join("");
 }
 
-/* ── 데이터 로드 + URL 복원 ── */
+/* ── 즐겨찾기 ── */
+function getFavs() { try { return JSON.parse(localStorage.getItem("pocafav") || "{}"); } catch { return {}; } }
+function saveFavs(f) { localStorage.setItem("pocafav", JSON.stringify(f)); }
+function isFavGroup(g) { return (getFavs().groups || []).includes(g); }
+function isFavMember(g, m) { return ((getFavs().members || {})[g] || []).includes(m); }
+
+function toggleFavGroup(g, e) {
+  e.stopPropagation();
+  const f = getFavs(); f.groups = f.groups || [];
+  const had = f.groups.includes(g);
+  f.groups = had ? f.groups.filter(x => x !== g) : [...f.groups, g];
+  saveFavs(f); renderStatsGrid(); renderFavs();
+  showToast(had ? "즐겨찾기에서 제거됐어요" : "⭐ 즐겨찾기에 추가됐어요!");
+}
+function toggleFavMember(g, m, e) {
+  e.stopPropagation();
+  const f = getFavs(); f.members = f.members || {}; f.members[g] = f.members[g] || [];
+  const had = f.members[g].includes(m);
+  f.members[g] = had ? f.members[g].filter(x => x !== m) : [...f.members[g], m];
+  if (!f.members[g].length) delete f.members[g];
+  saveFavs(f); renderMemberGrid(); renderFavs();
+  showToast(had ? "즐겨찾기에서 제거됐어요" : "⭐ 즐겨찾기에 추가됐어요!");
+}
+function renderFavs() {
+  const f = getFavs();
+  const chips = [];
+  (f.groups || []).forEach(g => chips.push({ label: g, group: g, member: null }));
+  Object.entries(f.members || {}).forEach(([g, ms]) => ms.forEach(m => chips.push({ label: g + " · " + m, group: g, member: m })));
+  const sec = document.getElementById("favSection");
+  if (!chips.length) { sec.style.display = "none"; return; }
+  sec.style.display = "block";
+  document.getElementById("favGrid").innerHTML = chips.map(c => `
+    <div class="fav-chip" onclick="goFav('${escHtml(c.group)}','${c.member ? escHtml(c.member) : ''}')">
+      ⭐ ${escHtml(c.label)}
+      <span class="fav-x" onclick="removeFav(event,'${escHtml(c.group)}','${c.member ? escHtml(c.member) : ''}')">✕</span>
+    </div>`).join("");
+}
+function goFav(g, m) {
+  const tab = [...document.querySelectorAll(".tab")].find(t => t.textContent === g);
+  if (tab) selectGroup(g, tab); else { currentGroup = g; renderStatsGrid(); renderMemberGrid(); renderListings(); }
+  if (m) setTimeout(() => { const mc = [...document.querySelectorAll(".member-card")].find(c => c.querySelector(".m-name")?.textContent === m); if (mc) selectMember(m, mc); }, 60);
+  scrollToListings();
+}
+function removeFav(e, g, m) {
+  e.stopPropagation();
+  const f = getFavs();
+  if (m) { f.members = f.members || {}; f.members[g] = (f.members[g] || []).filter(x => x !== m); if (!f.members[g].length) delete f.members[g]; }
+  else f.groups = (f.groups || []).filter(x => x !== g);
+  saveFavs(f); renderStatsGrid(); renderMemberGrid(); renderFavs();
+}
+
+/* ── 자동완성 ── */
+function showAC(q) {
+  if (!q || !allData) { hideAC(); return; }
+  const ql = q.toLowerCase();
+  const results = [];
+  const groups = allData.stats?.groups || {};
+  const members = allData.stats?.members || {};
+  Object.keys(groups).forEach(g => { if (g.toLowerCase().includes(ql)) results.push({ label: g, sub: "그룹 · " + groups[g].count + "건", group: g, member: null }); });
+  Object.entries(members).forEach(([g, ms]) => Object.keys(ms).forEach(m => { if (m.toLowerCase().includes(ql)) results.push({ label: m, sub: g + " · " + ms[m].count + "건", group: g, member: m }); }));
+  if (!results.length) { hideAC(); return; }
+  acResults = results.slice(0, 7);
+  acFocused = -1;
+  document.getElementById("acDropdown").innerHTML = acResults.map((r, i) => `
+    <div class="ac-item" data-i="${i}" onmousedown="selectAC(${i})">
+      <span class="ac-label">${escHtml(r.label)}</span>
+      <span class="ac-sub">${escHtml(r.sub)}</span>
+    </div>`).join("");
+  document.getElementById("acDropdown").style.display = "block";
+}
+function hideAC() { document.getElementById("acDropdown").style.display = "none"; acFocused = -1; }
+function selectAC(i) {
+  const r = acResults[i]; if (!r) return;
+  hideAC();
+  if (r.member) {
+    const tab = [...document.querySelectorAll(".tab")].find(t => t.textContent === r.group);
+    if (tab) selectGroup(r.group, tab);
+    setTimeout(() => { const mc = [...document.querySelectorAll(".member-card")].find(c => c.querySelector(".m-name")?.textContent === r.member); if (mc) selectMember(r.member, mc); scrollToListings(); }, 60);
+  } else {
+    const tab = [...document.querySelectorAll(".tab")].find(t => t.textContent === r.group);
+    if (tab) selectGroup(r.group, tab); else { currentGroup = r.group; renderStatsGrid(); renderMemberGrid(); renderListings(); scrollToListings(); }
+  }
+  document.getElementById("searchInput").value = r.label;
+}
+
+/* ── 데이터 로드 ── */
 async function loadData() {
   try {
     const resp = await fetch("data/prices.json?t=" + Date.now());
@@ -471,44 +438,44 @@ async function loadData() {
     allData = await resp.json();
     restoreFromURL();
     init();
+    restoreScroll();
   } catch {
-    document.getElementById("statsGrid").innerHTML =
-      '<div style="grid-column:1/-1"><div class="empty-state"><div class="empty-icon">😢</div><p>데이터를 불러올 수 없습니다.<br>잠시 후 다시 시도해주세요.</p></div></div>';
+    document.getElementById("statsGrid").innerHTML = '<div style="grid-column:1/-1"><div class="empty-state"><div class="empty-icon">😢</div><p>데이터를 불러올 수 없습니다.<br>잠시 후 다시 시도해주세요.</p></div></div>';
   }
 }
 
 function restoreFromURL() {
   const p = new URLSearchParams(location.search);
-  currentGroup  = p.get("group")  || null;
+  currentGroup = p.get("group") || null;
   currentMember = p.get("member") || null;
-  currentSearch = p.get("q")      || "";
+  currentSearch = p.get("q") || "";
   if (currentSearch) document.getElementById("searchInput").value = currentSearch;
 }
-
 function updateURL() {
   const p = new URLSearchParams();
-  if (currentGroup)  p.set("group",  currentGroup);
+  if (currentGroup)  p.set("group", currentGroup);
   if (currentMember) p.set("member", currentMember);
-  if (currentSearch) p.set("q",      currentSearch);
-  const qs = p.toString();
-  history.replaceState(null, "", qs ? "?" + qs : location.pathname);
+  if (currentSearch) p.set("q", currentSearch);
+  history.replaceState(null, "", p.toString() ? "?" + p.toString() : location.pathname);
+}
+
+/* ── 스크롤 위치 기억 ── */
+function saveScroll() { sessionStorage.setItem("pocaScroll", window.scrollY); }
+function restoreScroll() {
+  const y = sessionStorage.getItem("pocaScroll");
+  if (y) { setTimeout(() => window.scrollTo({ top: parseInt(y), behavior: "instant" }), 80); sessionStorage.removeItem("pocaScroll"); }
 }
 
 function init() {
   if (!allData) return;
-  if (allData.last_updated)
-    document.getElementById("lastUpdated").textContent = "마지막 업데이트: " + allData.last_updated;
+  if (allData.last_updated) document.getElementById("lastUpdated").textContent = "마지막 업데이트: " + allData.last_updated;
   renderGroupTabs();
   renderHot();
   renderFavs();
   renderStatsGrid();
   if (currentGroup) renderMemberGrid();
   renderListings();
-  // URL에서 복원된 경우 탭 활성화
-  if (currentGroup) {
-    const tab = [...document.querySelectorAll(".tab")].find(t => t.textContent === currentGroup);
-    if (tab) { document.querySelectorAll(".tab").forEach(t => t.classList.remove("active")); tab.classList.add("active"); }
-  }
+  if (currentGroup) { const tab = [...document.querySelectorAll(".tab")].find(t => t.textContent === currentGroup); if (tab) { document.querySelectorAll(".tab").forEach(t => t.classList.remove("active")); tab.classList.add("active"); } }
 }
 
 /* ── 탭 ── */
@@ -516,34 +483,17 @@ function renderGroupTabs() {
   const stats = allData.stats?.groups || {};
   const groups = Object.keys(stats).sort((a, b) => stats[b].count - stats[a].count);
   const tabs = document.getElementById("groupTabs");
-  groups.forEach(g => {
-    const btn = document.createElement("button");
-    btn.className = "tab";
-    btn.textContent = g;
-    btn.onclick = () => selectGroup(g, btn);
-    tabs.appendChild(btn);
-  });
+  groups.forEach(g => { const btn = document.createElement("button"); btn.className = "tab"; btn.textContent = g; btn.onclick = () => selectGroup(g, btn); tabs.appendChild(btn); });
 }
-
 function selectGroup(group, el) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   el.classList.add("active");
   el.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-  currentGroup = group;
-  currentMember = null;
-  displayedCount = 20;
-  updateURL();
-  renderStatsGrid();
-  renderMemberGrid();
-  renderListings();
+  currentGroup = group; currentMember = null; displayedCount = 20;
+  updateURL(); renderStatsGrid(); renderMemberGrid(); renderListings();
   if (group) scrollToListings();
 }
-
-function scrollToListings() {
-  setTimeout(() => {
-    document.getElementById("listingTitle").scrollIntoView({ behavior: "smooth", block: "start" });
-  }, 80);
-}
+function scrollToListings() { setTimeout(() => document.getElementById("listingTitle").scrollIntoView({ behavior: "smooth", block: "start" }), 80); }
 
 /* ── 그룹 시세 ── */
 function renderStatsGrid() {
@@ -555,12 +505,10 @@ function renderStatsGrid() {
   if (!entries.length) { grid.innerHTML = '<div class="empty-state"><p>데이터 없음</p></div>'; return; }
   grid.innerHTML = entries.map(([g, s]) => `
     <div class="stat-card ${currentGroup === g ? "selected" : ""}" onclick="selectGroup('${escHtml(g)}', this)">
-      <button class="star-btn" onclick="toggleFavGroup('${escHtml(g)}', event)" title="즐겨찾기">
-        ${isFavGroup(g) ? "⭐" : "☆"}
-      </button>
+      <button class="star-btn" onclick="toggleFavGroup('${escHtml(g)}',event)">${isFavGroup(g) ? "⭐" : "☆"}</button>
       <div class="g-name">${escHtml(g)}</div>
-      <div class="g-avg">${s.avg.toLocaleString()}원</div>
-      <div class="g-sub">최저 ${s.min.toLocaleString()} · ${s.count}건</div>
+      <div class="g-avg">${fmtPrice(s.avg)}</div>
+      <div class="g-sub">최저 ${fmtPrice(s.min)} · ${s.count}건</div>
     </div>`).join("");
 }
 
@@ -575,23 +523,17 @@ function renderMemberGrid() {
   sec.style.display = "block";
   document.getElementById("memberGrid").innerHTML = members.map(([m, s]) => `
     <div class="member-card ${currentMember === m ? "selected" : ""}" onclick="selectMember('${escHtml(m)}', this)">
-      <button class="star-btn" onclick="toggleFavMember('${escHtml(currentGroup)}','${escHtml(m)}',event)" title="즐겨찾기">
-        ${isFavMember(currentGroup, m) ? "⭐" : "☆"}
-      </button>
+      <button class="star-btn" onclick="toggleFavMember('${escHtml(currentGroup)}','${escHtml(m)}',event)">${isFavMember(currentGroup, m) ? "⭐" : "☆"}</button>
       <div class="m-name">${escHtml(m)}</div>
-      <div class="m-price">${s.avg.toLocaleString()}원</div>
+      <div class="m-price">${fmtPrice(s.avg)}</div>
       <div class="m-count">${s.count}건</div>
     </div>`).join("");
 }
-
 function selectMember(member, el) {
   document.querySelectorAll(".member-card").forEach(c => c.classList.remove("selected"));
   currentMember = currentMember === member ? null : member;
   if (currentMember) el.classList.add("selected");
-  displayedCount = 20;
-  updateURL();
-  renderListings();
-  scrollToListings();
+  displayedCount = 20; updateURL(); renderListings(); scrollToListings();
 }
 
 /* ── 가격 프리셋 ── */
@@ -600,8 +542,7 @@ function setPreset(btn) {
   btn.classList.add("active");
   priceMin = Number(btn.dataset.min) || 0;
   priceMax = btn.dataset.max === "Infinity" ? Infinity : Number(btn.dataset.max);
-  displayedCount = 20;
-  renderListings();
+  displayedCount = 20; renderListings();
 }
 
 /* ── 필터링 ── */
@@ -612,12 +553,7 @@ function getFilteredItems() {
     if (currentGroup && item.group !== currentGroup) return false;
     if (currentMember && item.member !== currentMember) return false;
     if (item.price < priceMin || item.price > priceMax) return false;
-    if (currentSearch) {
-      const q = currentSearch.toLowerCase();
-      if (!item.title.toLowerCase().includes(q) &&
-          !(item.group || "").toLowerCase().includes(q) &&
-          !(item.member || "").toLowerCase().includes(q)) return false;
-    }
+    if (currentSearch) { const q = currentSearch.toLowerCase(); if (!item.title.toLowerCase().includes(q) && !(item.group||"").toLowerCase().includes(q) && !(item.member||"").toLowerCase().includes(q)) return false; }
     return true;
   });
   if (sort === "price_asc") items.sort((a, b) => a.price - b.price);
@@ -629,36 +565,22 @@ function renderListings() {
   const items = getFilteredItems();
   const container = document.getElementById("listingsContainer");
   const btn = document.getElementById("loadMoreBtn");
-
   let title = "최근 거래글";
   if (currentMember) title = currentMember + " 포카 거래글";
   else if (currentGroup) title = currentGroup + " 포카 거래글";
   else if (currentSearch) title = '"' + currentSearch + '" 검색 결과';
   document.getElementById("listingTitle").textContent = title;
   document.getElementById("resultInfo").textContent = "총 " + items.length.toLocaleString() + "건";
-
   const slice = items.slice(0, displayedCount);
   if (!slice.length) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon">🔍</div>
-        <p>${currentSearch ? '"' + escHtml(currentSearch) + '" 검색 결과가 없어요.' :
-           currentGroup ? escHtml(currentGroup) + ' 포카 거래글이 없어요.' :
-           '조건에 맞는 거래글이 없어요.'}</p>
-        <button onclick="resetAll()">전체 보기로 돌아가기</button>
-      </div>`;
-    btn.style.display = "none";
-    return;
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><p>${currentSearch?'"'+escHtml(currentSearch)+'" 검색 결과가 없어요.':currentGroup?escHtml(currentGroup)+' 포카 거래글이 없어요.':'조건에 맞는 거래글이 없어요.'}</p><button onclick="resetAll()">전체 보기로 돌아가기</button></div>`;
+    btn.style.display = "none"; return;
   }
-
   container.innerHTML = slice.map(item => `
-    <a class="listing-card" href="${item.link}" target="_blank" rel="noopener noreferrer">
-      <div class="listing-img-wrap" onclick="openLightbox(event,'${item.image ? escAttr(item.image) : ''}')">
+    <a class="listing-card" href="${item.link}" target="_blank" rel="noopener noreferrer" onclick="saveScroll()">
+      <div class="listing-img-wrap" onclick="openLightbox(event,'${item.image?escAttr(item.image):''}')">
         ${item.image
-          ? `<img class="listing-img" src="${item.image}" alt="" loading="lazy"
-                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-             <div class="listing-img-placeholder" style="display:none">💜</div>
-             <span class="zoom-hint">🔍</span>`
+          ? `<img class="listing-img" src="${item.image}" alt="" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/><div class="listing-img-placeholder" style="display:none">💜</div><span class="zoom-hint">🔍</span>`
           : `<div class="listing-img-placeholder">💜</div>`}
       </div>
       <div class="listing-info">
@@ -667,88 +589,63 @@ function renderListings() {
           <span class="badge badge-platform">${item.platform}</span>
           ${item.group  ? `<span class="badge badge-group">${escHtml(item.group)}</span>` : ""}
           ${item.member ? `<span class="badge badge-member">${escHtml(item.member)}</span>` : ""}
-          <span class="listing-date">${item.date || ""}</span>
+          <span class="listing-date">${relTime(item.date)}</span>
+          ${priceDiffTag(item)}
         </div>
       </div>
-      <div class="listing-price">${item.price.toLocaleString()}원</div>
+      <div class="listing-right">
+        <div class="listing-price">${fmtPrice(item.price)}</div>
+      </div>
     </a>`).join("");
-
   btn.style.display = items.length > displayedCount ? "block" : "none";
 }
 
 function loadMore() {
-  const prev = displayedCount;
-  displayedCount += 20;
-  renderListings();
-  setTimeout(() => {
-    const cards = document.querySelectorAll(".listing-card");
-    if (cards[prev]) cards[prev].scrollIntoView({ behavior: "smooth", block: "start" });
-  }, 60);
+  const prev = displayedCount; displayedCount += 20; renderListings();
+  setTimeout(() => { const cards = document.querySelectorAll(".listing-card"); if (cards[prev]) cards[prev].scrollIntoView({ behavior: "smooth", block: "start" }); }, 60);
 }
-
 function applyFilter() { displayedCount = 20; renderListings(); }
-
 function doSearch() {
   currentSearch = document.getElementById("searchInput").value.trim();
   currentGroup = null; currentMember = null; displayedCount = 20;
-  updateURL();
+  hideAC(); updateURL();
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   document.querySelector(".tab").classList.add("active");
   renderStatsGrid(); renderMemberGrid(); renderListings();
 }
-
 function resetAll() {
-  currentGroup = null; currentMember = null; currentSearch = "";
-  priceMin = 0; priceMax = Infinity; displayedCount = 20;
+  currentGroup = null; currentMember = null; currentSearch = ""; priceMin = 0; priceMax = Infinity; displayedCount = 20;
   document.getElementById("searchInput").value = "";
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  document.querySelector(".tab").classList.add("active");
-  document.querySelectorAll(".preset-btn").forEach(b => b.classList.remove("active"));
-  document.querySelector(".preset-btn").classList.add("active");
-  updateURL();
-  renderStatsGrid(); renderMemberGrid(); renderListings();
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active")); document.querySelector(".tab").classList.add("active");
+  document.querySelectorAll(".preset-btn").forEach(b => b.classList.remove("active")); document.querySelector(".preset-btn").classList.add("active");
+  updateURL(); renderStatsGrid(); renderMemberGrid(); renderListings();
 }
 
 /* ── 라이트박스 ── */
-function openLightbox(e, src) {
-  if (!src) return;
-  e.preventDefault(); e.stopPropagation();
-  document.getElementById("lightboxImg").src = src;
-  document.getElementById("lightbox").classList.add("open");
-  document.body.style.overflow = "hidden";
-}
-function closeLightbox() {
-  document.getElementById("lightbox").classList.remove("open");
-  document.body.style.overflow = "";
-}
+function openLightbox(e, src) { if (!src) return; e.preventDefault(); e.stopPropagation(); document.getElementById("lightboxImg").src = src; document.getElementById("lightbox").classList.add("open"); document.body.style.overflow = "hidden"; }
+function closeLightbox() { document.getElementById("lightbox").classList.remove("open"); document.body.style.overflow = ""; }
 document.addEventListener("keydown", e => { if (e.key === "Escape") closeLightbox(); });
 
 /* ── 링크 복사 ── */
-function copyLink() {
-  navigator.clipboard.writeText(location.href).then(() => showToast("링크가 복사되었습니다! 💜"));
-}
+function copyLink() { navigator.clipboard.writeText(location.href).then(() => showToast("링크가 복사되었습니다! 💜")); }
 
 /* ── 토스트 ── */
-function showToast(msg) {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.classList.remove("show"), 2500);
-}
+function showToast(msg) { const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._timer); t._timer = setTimeout(() => t.classList.remove("show"), 2500); }
 
-function escHtml(s) {
-  if (!s) return "";
-  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
-function escAttr(s) {
-  if (!s) return "";
-  return String(s).replace(/'/g, "&#39;").replace(/"/g,"&quot;");
-}
+function escHtml(s) { if (!s) return ""; return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function escAttr(s) { if (!s) return ""; return String(s).replace(/'/g,"&#39;").replace(/"/g,"&quot;"); }
 
-document.getElementById("searchInput").addEventListener("keydown", e => {
-  if (e.key === "Enter") doSearch();
+/* ── 검색창 이벤트 ── */
+const inp = document.getElementById("searchInput");
+inp.addEventListener("input", e => showAC(e.target.value.trim()));
+inp.addEventListener("keydown", e => {
+  const items = document.querySelectorAll(".ac-item");
+  if (e.key === "ArrowDown") { e.preventDefault(); acFocused = Math.min(acFocused + 1, items.length - 1); items.forEach((el, i) => el.classList.toggle("focused", i === acFocused)); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); acFocused = Math.max(acFocused - 1, -1); items.forEach((el, i) => el.classList.toggle("focused", i === acFocused)); }
+  else if (e.key === "Enter") { if (acFocused >= 0) selectAC(acFocused); else doSearch(); }
+  else if (e.key === "Escape") hideAC();
 });
+inp.addEventListener("blur", () => setTimeout(hideAC, 150));
 
 loadData();
 </script>
