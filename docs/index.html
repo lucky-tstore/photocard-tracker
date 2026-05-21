@@ -140,6 +140,9 @@
     .badge-platform { background: #f0e0f5; color: var(--accent); }
     .badge-group { background: #e8f0fe; color: #3a60c8; }
     .badge-member { background: #e8fce8; color: #2a8a2a; }
+    .badge-group, .badge-member { cursor: pointer; }
+    .badge-group:hover { background: #c8d8fe; color: #1a40a0; }
+    .badge-member:hover { background: #c8f0c8; color: #1a6a1a; }
     .listing-date { font-size: 0.7rem; color: var(--muted); }
     .listing-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; align-self: center; }
     .listing-price { font-weight: 700; font-size: 1.05rem; color: var(--primary); white-space: nowrap; }
@@ -234,11 +237,13 @@
   </div>
 
   <!-- 그룹 시세 -->
-  <div class="section-title">그룹별 평균 시세 <span class="section-sub">5건 이상 기준</span></div>
-  <div class="stats-grid" id="statsGrid">
-    <div class="loading"><div class="spinner"></div><div>불러오는 중...</div></div>
+  <div id="groupStatsSection">
+    <div class="section-title">그룹별 평균 시세 <span class="section-sub">5건 이상 기준</span></div>
+    <div class="stats-grid" id="statsGrid">
+      <div class="loading"><div class="spinner"></div><div>불러오는 중...</div></div>
+    </div>
+    <button class="show-more-btn" id="showMoreGroupsBtn" style="display:none" onclick="toggleAllGroups()">▼ 전체 그룹 보기</button>
   </div>
-  <button class="show-more-btn" id="showMoreGroupsBtn" style="display:none" onclick="toggleAllGroups()">▼ 전체 그룹 보기</button>
 
   <!-- 멤버 시세 -->
   <div id="memberSection" style="display:none">
@@ -291,6 +296,16 @@ let acResults = [];
 let acFocused = -1;
 let showAllGroups = false;
 const MIN_COUNT = 5; // 시세 신뢰도 최소 거래 건수
+const KO_ALIAS = {
+  "BTS":["방탄소년단","방탄"],"BLACKPINK":["블랙핑크"],"aespa":["에스파"],"NewJeans":["뉴진스"],
+  "IVE":["아이브"],"LE SSERAFIM":["르세라핌"],"SEVENTEEN":["세븐틴"],"Stray Kids":["스트레이키즈","스키즈"],
+  "TXT":["투모로우바이투게더","투바투"],"ENHYPEN":["엔하이픈"],"TWICE":["트와이스"],"EXO":["엑소"],
+  "NCT 127":["엔씨티127"],"NCT Dream":["엔씨티드림"],"ITZY":["있지"],"NMIXX":["엔믹스"],
+  "ZEROBASEONE":["제로베이스원","지비원","ZB1"],"RIIZE":["라이즈"],"ATEEZ":["에이티즈"],
+  "THE BOYZ":["더보이즈"],"Red Velvet":["레드벨벳"],"Girls' Generation":["소녀시대"],
+  "MAMAMOO":["마마무"],"SHINEE":["샤이니"],"Super Junior":["슈퍼주니어"],
+  "MONSTA X":["몬스타엑스"],"BIGBANG":["빅뱅"],"GOT7":["갓세븐"],"WayV":["웨이비"]
+};
 
 /* ── 포맷 함수 ── */
 function fmtPrice(p) {
@@ -311,8 +326,13 @@ function relTime(dateStr) {
 function priceDiffTag(item) {
   const stats = allData?.stats;
   let avg = null;
-  if (item.member && stats?.members?.[item.group]?.[item.member]) avg = stats.members[item.group][item.member].avg;
-  else if (item.group && stats?.groups?.[item.group]) avg = stats.groups[item.group].avg;
+  if (item.member && stats?.members?.[item.group]?.[item.member]) {
+    const ms = stats.members[item.group][item.member];
+    if (ms.count >= MIN_COUNT) avg = ms.avg;
+  } else if (item.group && stats?.groups?.[item.group]) {
+    const gs = stats.groups[item.group];
+    if (gs.count >= MIN_COUNT) avg = gs.avg;
+  }
   if (!avg) return "";
   const pct = Math.round((item.price - avg) / avg * 100);
   if (pct <= -20) return `<span class="price-tag cheap">💚 ${Math.abs(pct)}% 저렴</span>`;
@@ -399,7 +419,11 @@ function showAC(q) {
   if (!q || !allData) { hideAC(); return; }
   const ql = q.toLowerCase(); const results = [];
   const groups = allData.stats?.groups || {}; const members = allData.stats?.members || {};
-  Object.keys(groups).forEach(g => { if (g.toLowerCase().includes(ql)) results.push({ label: g, sub: "그룹 · " + groups[g].count + "건", group: g, member: null }); });
+  Object.keys(groups).forEach(g => {
+    const aliases = KO_ALIAS[g] || [];
+    if (g.toLowerCase().includes(ql) || aliases.some(a => a.includes(ql)))
+      results.push({ label: g, sub: "그룹 · " + groups[g].count + "건", group: g, member: null });
+  });
   Object.entries(members).forEach(([g, ms]) => Object.keys(ms).forEach(m => { if (m.toLowerCase().includes(ql)) results.push({ label: m, sub: g + " · " + ms[m].count + "건", group: g, member: m }); }));
   if (!results.length) { hideAC(); return; }
   acResults = results.slice(0, 7); acFocused = -1;
@@ -462,7 +486,11 @@ function restoreScroll() { const y = sessionStorage.getItem("pocaScroll"); if (y
 
 function init() {
   if (!allData) return;
-  if (allData.last_updated) document.getElementById("lastUpdated").textContent = "마지막 업데이트: " + allData.last_updated;
+  if (allData.last_updated) {
+    const rel = relTime(allData.last_updated);
+    const el = document.getElementById("lastUpdated");
+    el.textContent = /^\d{4}-\d{2}-\d{2}$/.test(rel) ? "마지막 업데이트: " + allData.last_updated : rel + " 업데이트";
+  }
   renderGroupTabs(); renderHot(); renderFavs(); renderStatsGrid();
   if (currentGroup) renderMemberGrid();
   renderListings();
@@ -484,25 +512,36 @@ function selectGroup(group, el) {
   if (group) scrollToListings();
 }
 function scrollToListings() { setTimeout(() => document.getElementById("listingTitle").scrollIntoView({ behavior: "smooth", block: "start" }), 80); }
+function badgeClickGroup(e, group) {
+  e.preventDefault(); e.stopPropagation();
+  const tab = [...document.querySelectorAll(".tab")].find(t => t.textContent === group);
+  if (tab) selectGroup(group, tab);
+  else { currentGroup = group; currentMember = null; displayedCount = 20; updateURL(); renderStatsGrid(); renderMemberGrid(); renderListings(); }
+  scrollToListings();
+}
+function badgeClickMember(e, group, member) {
+  e.preventDefault(); e.stopPropagation();
+  const tab = [...document.querySelectorAll(".tab")].find(t => t.textContent === group);
+  if (tab) selectGroup(group, tab); else { currentGroup = group; displayedCount = 20; updateURL(); renderStatsGrid(); renderMemberGrid(); }
+  setTimeout(() => { const mc = [...document.querySelectorAll(".member-card")].find(c => c.querySelector(".m-name")?.textContent === member); if (mc) selectMember(member, mc); scrollToListings(); }, 90);
+}
 
 /* ── 그룹 시세 (5건 이상만 + 더보기) ── */
 function renderStatsGrid() {
   const stats = allData.stats?.groups || {};
   const grid = document.getElementById("statsGrid");
   const btn = document.getElementById("showMoreGroupsBtn");
+  const sec = document.getElementById("groupStatsSection");
+  if (currentGroup) { sec.style.display = "none"; return; }
+  sec.style.display = "";
   let entries = Object.entries(stats).filter(([, s]) => s.count >= MIN_COUNT);
-  if (currentGroup) {
-    entries = entries.filter(([g]) => g === currentGroup);
-    btn.style.display = "none";
-  } else {
-    entries = entries.sort((a, b) => b[1].count - a[1].count);
-    if (!showAllGroups && entries.length > 12) { btn.style.display = "block"; btn.textContent = `▼ 전체 ${entries.length}개 그룹 보기`; entries = entries.slice(0, 12); }
-    else { btn.style.display = entries.length > 12 ? "block" : "none"; if (showAllGroups) btn.textContent = "▲ 접기"; }
-  }
+  entries = entries.sort((a, b) => b[1].count - a[1].count);
+  if (!showAllGroups && entries.length > 12) { btn.style.display = "block"; btn.textContent = `▼ 전체 ${entries.length}개 그룹 보기`; entries = entries.slice(0, 12); }
+  else { btn.style.display = entries.length > 12 ? "block" : "none"; if (showAllGroups) btn.textContent = "▲ 접기"; }
   if (!entries.length) { grid.innerHTML = '<div class="empty-state"><p>데이터 없음</p></div>'; return; }
   grid.innerHTML = entries.map(([g, s]) => `
-    <div class="stat-card ${currentGroup === g ? "selected" : ""}" onclick="selectGroup('${escHtml(g)}', this)">
-      <button class="star-btn" onclick="toggleFavGroup('${escHtml(g)}',event)">${isFavGroup(g) ? "⭐" : "☆"}</button>
+    <div class="stat-card" onclick="selectGroup('${escAttr(g)}', this)">
+      <button class="star-btn" onclick="toggleFavGroup('${escAttr(g)}',event)">${isFavGroup(g) ? "⭐" : "☆"}</button>
       <div class="g-name">${escHtml(g)}</div>
       <div class="g-avg">${fmtPrice(s.avg)}</div>
       <div class="g-sub">최저 ${fmtPrice(s.min)} · ${s.count}건</div>
@@ -586,8 +625,8 @@ function renderListings() {
         <div class="listing-title">${escHtml(item.title)}</div>
         <div class="listing-meta">
           <span class="badge badge-platform">${item.platform}</span>
-          ${item.group  ? `<span class="badge badge-group">${escHtml(item.group)}</span>` : ""}
-          ${item.member ? `<span class="badge badge-member">${escHtml(item.member)}</span>` : ""}
+          ${item.group  ? `<span class="badge badge-group" onclick="badgeClickGroup(event,'${escAttr(item.group)}')">${escHtml(item.group)}</span>` : ""}
+          ${item.member ? `<span class="badge badge-member" onclick="badgeClickMember(event,'${escAttr(item.group)}','${escAttr(item.member)}')">${escHtml(item.member)}</span>` : ""}
           <span class="listing-date">${relTime(item.date)}</span>
         </div>
       </div>
