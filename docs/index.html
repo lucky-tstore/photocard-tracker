@@ -266,7 +266,7 @@ let displayedCount = 20;
 
 async function loadData() {
   try {
-    const resp = await fetch("../data/prices.json");
+    const resp = await fetch("data/prices.json");
     allData = await resp.json();
     init();
   } catch (e) {

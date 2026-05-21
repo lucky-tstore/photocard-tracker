@@ -7,7 +7,7 @@ from scrapers.junggo import scrape_junggo
 from parser.idol_parser import parse_idol_info, is_photocard
 
 
-PRICES_PATH = os.path.join(os.path.dirname(__file__), "data", "prices.json")
+PRICES_PATH = os.path.join(os.path.dirname(__file__), "docs", "data", "prices.json")
 MAX_ITEMS = 8000
 
 
