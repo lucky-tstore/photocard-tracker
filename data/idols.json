@@ -4,11 +4,11 @@
     "members": [
       {"name": "RM", "aliases": ["RM", "알엠", "김남준", "남준"]},
       {"name": "진", "aliases": ["진", "김석진", "석진", "Jin"]},
-      {"name": "슈가", "aliases": ["슈가", "민윤기", "윤기", "Suga", "Agust D"]},
+      {"name": "슈가", "aliases": ["슈가", "민윤기", "윤기", "Suga", "Agust D", "어거스트디"]},
       {"name": "제이홉", "aliases": ["제이홉", "정호석", "호석", "jhope", "j-hope"]},
       {"name": "지민", "aliases": ["지민", "박지민", "Jimin"]},
-      {"name": "뷔", "aliases": ["뷔", "김태형", "태형", "V"]},
-      {"name": "정국", "aliases": ["정국", "전정국", "Jungkook", "JK"]}
+      {"name": "뷔", "aliases": ["뷔", "김태형", "태형", "V", "태태"]},
+      {"name": "정국", "aliases": ["정국", "전정국", "Jungkook", "JK", "황금막내"]}
     ]
   },
   "BLACKPINK": {
@@ -24,9 +24,9 @@
     "aliases": ["aespa", "에스파"],
     "members": [
       {"name": "카리나", "aliases": ["카리나", "유지민", "Karina"]},
-      {"name": "지젤", "aliases": ["지젤", "닝이줘", "Giselle"]},
+      {"name": "지젤", "aliases": ["지젤", "Giselle"]},
       {"name": "윈터", "aliases": ["윈터", "김민정", "Winter"]},
-      {"name": "닝닝", "aliases": ["닝닝", "닝이", "Ningning"]}
+      {"name": "닝닝", "aliases": ["닝닝", "Ningning"]}
     ]
   },
   "NewJeans": {
@@ -63,14 +63,14 @@
   "SEVENTEEN": {
     "aliases": ["SEVENTEEN", "세븐틴", "SVT"],
     "members": [
-      {"name": "에스쿱스", "aliases": ["에스쿱스", "최승철", "승철", "S.Coups"]},
+      {"name": "에스쿱스", "aliases": ["에스쿱스", "최승철", "승철", "S.Coups", "scoups"]},
       {"name": "우지", "aliases": ["우지", "이지훈", "지훈", "Woozi"]},
       {"name": "정한", "aliases": ["정한", "Jeonghan"]},
       {"name": "조슈아", "aliases": ["조슈아", "홍지수", "Joshua"]},
       {"name": "준", "aliases": ["준", "문준휘", "Jun"]},
       {"name": "호시", "aliases": ["호시", "권순영", "순영", "Hoshi"]},
       {"name": "원우", "aliases": ["원우", "Wonwoo"]},
-      {"name": "디에잇", "aliases": ["디에잇", "D.O", "The8", "서명호"]},
+      {"name": "디에잇", "aliases": ["디에잇", "The8", "서명호"]},
       {"name": "민규", "aliases": ["민규", "김민규", "Mingyu"]},
       {"name": "도겸", "aliases": ["도겸", "이석민", "Dokyeom", "DK"]},
       {"name": "승관", "aliases": ["승관", "부승관", "Seungkwan"]},
@@ -79,16 +79,16 @@
     ]
   },
   "Stray Kids": {
-    "aliases": ["Stray Kids", "스트레이키즈", "SKZ"],
+    "aliases": ["Stray Kids", "스트레이키즈", "SKZ", "스키즈"],
     "members": [
-      {"name": "방찬", "aliases": ["방찬", "Bang Chan"]},
-      {"name": "리노", "aliases": ["리노", "이펠릭스", "Lee Know"]},
+      {"name": "방찬", "aliases": ["방찬", "Bang Chan", "bangchan"]},
+      {"name": "리노", "aliases": ["리노", "Lee Know", "leeknow"]},
       {"name": "창빈", "aliases": ["창빈", "서창빈", "Changbin"]},
       {"name": "현진", "aliases": ["현진", "황현진", "Hyunjin"]},
-      {"name": "한", "aliases": ["한", "韓", "Han"]},
+      {"name": "한", "aliases": ["한", "Han"]},
       {"name": "필릭스", "aliases": ["필릭스", "Felix"]},
       {"name": "승민", "aliases": ["승민", "김승민", "Seungmin"]},
-      {"name": "아이엔", "aliases": ["아이엔", "양정인", "I.N"]}
+      {"name": "아이엔", "aliases": ["아이엔", "양정인", "I.N", "IN"]}
     ]
   },
   "TXT": {
@@ -98,7 +98,7 @@
       {"name": "연준", "aliases": ["연준", "최연준", "Yeonjun"]},
       {"name": "범규", "aliases": ["범규", "이범규", "Beomgyu"]},
       {"name": "태현", "aliases": ["태현", "강태현", "Taehyun"]},
-      {"name": "휴닝카이", "aliases": ["휴닝카이", "휴닝", "Huening Kai"]}
+      {"name": "휴닝카이", "aliases": ["휴닝카이", "휴닝", "Huening Kai", "hueningkai"]}
     ]
   },
   "ENHYPEN": {
@@ -110,7 +110,7 @@
       {"name": "제이크", "aliases": ["제이크", "Jake"]},
       {"name": "성훈", "aliases": ["성훈", "박성훈", "Sunghoon"]},
       {"name": "선우", "aliases": ["선우", "김선우", "Sunoo"]},
-      {"name": "니키", "aliases": ["니키", "Ni-ki"]}
+      {"name": "니키", "aliases": ["니키", "Ni-ki", "Niki"]}
     ]
   },
   "TWICE": {
@@ -121,7 +121,7 @@
       {"name": "모모", "aliases": ["모모", "히라이 모모", "Momo"]},
       {"name": "사나", "aliases": ["사나", "미나토 사나", "Sana"]},
       {"name": "지효", "aliases": ["지효", "박지효", "Jihyo"]},
-      {"name": "미나", "aliases": ["미나", "미나리", "Mina"]},
+      {"name": "미나", "aliases": ["미나", "Mina"]},
       {"name": "다현", "aliases": ["다현", "김다현", "Dahyun"]},
       {"name": "채영", "aliases": ["채영", "손채영", "Chaeyoung"]},
       {"name": "쯔위", "aliases": ["쯔위", "Tzuyu"]}
@@ -142,7 +142,7 @@
     ]
   },
   "NCT 127": {
-    "aliases": ["NCT 127", "NCT127", "엔씨티127"],
+    "aliases": ["NCT 127", "NCT127", "엔씨티127", "엔시티127"],
     "members": [
       {"name": "태일", "aliases": ["태일", "Taeil"]},
       {"name": "조니", "aliases": ["조니", "Johnny"]},
@@ -156,7 +156,7 @@
     ]
   },
   "NCT Dream": {
-    "aliases": ["NCT Dream", "NCT DREAM", "엔씨티드림"],
+    "aliases": ["NCT Dream", "NCT DREAM", "엔씨티드림", "엔시티드림", "드림"],
     "members": [
       {"name": "마크", "aliases": ["마크", "Mark"]},
       {"name": "런쥔", "aliases": ["런쥔", "Renjun"]},
@@ -167,11 +167,23 @@
       {"name": "지성", "aliases": ["지성", "Jisung"]}
     ]
   },
+  "WayV": {
+    "aliases": ["WayV", "웨이션브이", "웨이션V"],
+    "members": [
+      {"name": "쿤", "aliases": ["쿤", "Kun"]},
+      {"name": "텐", "aliases": ["텐", "Ten"]},
+      {"name": "루카스", "aliases": ["루카스", "Lucas"]},
+      {"name": "샤오쥔", "aliases": ["샤오쥔", "Xiaojun"]},
+      {"name": "헨드리", "aliases": ["헨드리", "Hendery"]},
+      {"name": "양양", "aliases": ["양양", "Yangyang"]},
+      {"name": "윈윈", "aliases": ["윈윈", "WinWin"]}
+    ]
+  },
   "ITZY": {
     "aliases": ["ITZY", "있지"],
     "members": [
       {"name": "예지", "aliases": ["예지", "황예지", "Yeji"]},
-      {"name": "아이나", "aliases": ["아이나", "Lia"]},
+      {"name": "리아", "aliases": ["리아", "Lia"]},
       {"name": "류진", "aliases": ["류진", "Ryujin"]},
       {"name": "채령", "aliases": ["채령", "Chaeryeong"]},
       {"name": "유나", "aliases": ["유나", "Yuna"]}
@@ -183,7 +195,6 @@
       {"name": "릴리", "aliases": ["릴리", "Lily"]},
       {"name": "해원", "aliases": ["해원", "Haewon"]},
       {"name": "설윤", "aliases": ["설윤", "Sullyoon"]},
-      {"name": "진니", "aliases": ["진니", "Jinni"]},
       {"name": "배이", "aliases": ["배이", "Bae"]},
       {"name": "지우", "aliases": ["지우", "Jiwoo"]},
       {"name": "규진", "aliases": ["규진", "Kyujin"]}
@@ -199,21 +210,405 @@
       {"name": "석매튜", "aliases": ["석매튜", "매튜", "Mathew"]},
       {"name": "김태래", "aliases": ["김태래", "태래", "Taerae"]},
       {"name": "리키", "aliases": ["리키", "Ricky"]},
-      {"name": "김규빈", "aliases": ["김규빈", "Gyuvin"]},
-      {"name": "한유진", "aliases": ["한유진", "유진", "Yujin"]},
-      {"name": "최소황", "aliases": ["최소황", "소황", "Shao"]}
+      {"name": "한유진", "aliases": ["한유진", "Yujin"]}
     ]
   },
   "RIIZE": {
     "aliases": ["RIIZE", "라이즈"],
     "members": [
-      {"name": "샹팡", "aliases": ["샹팡", "Shotaro"]},
+      {"name": "쇼타로", "aliases": ["쇼타로", "Shotaro"]},
       {"name": "승한", "aliases": ["승한", "Seunghan"]},
       {"name": "앤톤", "aliases": ["앤톤", "Anton"]},
       {"name": "은석", "aliases": ["은석", "Eunseok"]},
       {"name": "원빈", "aliases": ["원빈", "Wonbin"]},
-      {"name": "소훈", "aliases": ["소훈", "Sohee"]},
-      {"name": "쇼타로", "aliases": ["쇼타로", "Shotaro"]}
+      {"name": "소희", "aliases": ["소희", "Sohee"]}
+    ]
+  },
+  "ASTRO": {
+    "aliases": ["ASTRO", "아스트로"],
+    "members": [
+      {"name": "차은우", "aliases": ["차은우", "은우", "Eunwoo", "Cha Eunwoo"]},
+      {"name": "문빈", "aliases": ["문빈", "Moonbin"]},
+      {"name": "라키", "aliases": ["라키", "Rocky"]},
+      {"name": "산하", "aliases": ["산하", "Sanha"]},
+      {"name": "진진", "aliases": ["진진", "JinJin"]},
+      {"name": "MJ", "aliases": ["MJ", "엠제이"]}
+    ]
+  },
+  "MONSTA X": {
+    "aliases": ["MONSTA X", "몬스타엑스", "몬엑"],
+    "members": [
+      {"name": "셔누", "aliases": ["셔누", "Shownu"]},
+      {"name": "민혁", "aliases": ["민혁", "Minhyuk"]},
+      {"name": "기현", "aliases": ["기현", "Kihyun"]},
+      {"name": "형원", "aliases": ["형원", "Hyungwon"]},
+      {"name": "조헌", "aliases": ["조헌", "Jooheon"]},
+      {"name": "아이엠", "aliases": ["아이엠", "I.M"]}
+    ]
+  },
+  "GOT7": {
+    "aliases": ["GOT7", "갓세븐"],
+    "members": [
+      {"name": "제이비", "aliases": ["제이비", "JB", "임재범"]},
+      {"name": "마크", "aliases": ["마크", "Mark"]},
+      {"name": "잭슨", "aliases": ["잭슨", "Jackson"]},
+      {"name": "진영", "aliases": ["진영", "Jinyoung"]},
+      {"name": "영재", "aliases": ["영재", "Youngjae"]},
+      {"name": "뱀뱀", "aliases": ["뱀뱀", "BamBam"]},
+      {"name": "유겸", "aliases": ["유겸", "Yugyeom"]}
+    ]
+  },
+  "2PM": {
+    "aliases": ["2PM", "투피엠"],
+    "members": [
+      {"name": "준케이", "aliases": ["준케이", "Jun.K"]},
+      {"name": "닉쿤", "aliases": ["닉쿤", "Nichkhun"]},
+      {"name": "택연", "aliases": ["택연", "Taecyeon"]},
+      {"name": "우영", "aliases": ["우영", "Wooyoung"]},
+      {"name": "준호", "aliases": ["준호", "Junho"]},
+      {"name": "찬성", "aliases": ["찬성", "Chansung"]}
+    ]
+  },
+  "INFINITE": {
+    "aliases": ["INFINITE", "인피니트"],
+    "members": [
+      {"name": "성규", "aliases": ["성규", "Sunggyu"]},
+      {"name": "동우", "aliases": ["동우", "Dongwoo"]},
+      {"name": "우현", "aliases": ["우현", "Woohyun"]},
+      {"name": "호야", "aliases": ["호야", "Hoya"]},
+      {"name": "성열", "aliases": ["성열", "Sungyeol"]},
+      {"name": "엘", "aliases": ["엘", "L", "김명수"]},
+      {"name": "성종", "aliases": ["성종", "Sungjong"]}
+    ]
+  },
+  "WINNER": {
+    "aliases": ["WINNER", "위너"],
+    "members": [
+      {"name": "승윤", "aliases": ["승윤", "강승윤", "Seungyoon"]},
+      {"name": "이승훈", "aliases": ["이승훈", "승훈", "Seunghoon"]},
+      {"name": "송민호", "aliases": ["송민호", "민호", "Mino"]},
+      {"name": "김진우", "aliases": ["김진우", "진우", "Jinwoo"]}
+    ]
+  },
+  "iKON": {
+    "aliases": ["iKON", "아이콘"],
+    "members": [
+      {"name": "비아이", "aliases": ["비아이", "B.I", "김한빈"]},
+      {"name": "김진환", "aliases": ["김진환", "진환", "Jay"]},
+      {"name": "송윤형", "aliases": ["송윤형", "바비", "Bobby"]},
+      {"name": "김동혁", "aliases": ["김동혁", "DK", "동혁"]},
+      {"name": "구준회", "aliases": ["구준회", "준회", "Junhoe"]},
+      {"name": "정찬우", "aliases": ["정찬우", "찬우", "Chanwoo"]}
+    ]
+  },
+  "BIGBANG": {
+    "aliases": ["BIGBANG", "빅뱅"],
+    "members": [
+      {"name": "지드래곤", "aliases": ["지드래곤", "GD", "G-DRAGON", "권지용"]},
+      {"name": "탑", "aliases": ["탑", "T.O.P", "최승현"]},
+      {"name": "태양", "aliases": ["태양", "동영배", "Taeyang"]},
+      {"name": "대성", "aliases": ["대성", "강대성", "Daesung"]},
+      {"name": "승리", "aliases": ["승리", "Seungri"]}
+    ]
+  },
+  "SHINEE": {
+    "aliases": ["SHINEE", "샤이니"],
+    "members": [
+      {"name": "온유", "aliases": ["온유", "Onew"]},
+      {"name": "키", "aliases": ["키", "Key"]},
+      {"name": "민호", "aliases": ["민호", "Minho"]},
+      {"name": "태민", "aliases": ["태민", "Taemin"]},
+      {"name": "종현", "aliases": ["종현", "Jonghyun"]}
+    ]
+  },
+  "Super Junior": {
+    "aliases": ["Super Junior", "슈퍼주니어", "슈주", "SJ"],
+    "members": [
+      {"name": "이특", "aliases": ["이특", "Leeteuk"]},
+      {"name": "희철", "aliases": ["희철", "Heechul"]},
+      {"name": "예성", "aliases": ["예성", "Yesung"]},
+      {"name": "강인", "aliases": ["강인", "Kangin"]},
+      {"name": "신동", "aliases": ["신동", "Shindong"]},
+      {"name": "성민", "aliases": ["성민", "Sungmin"]},
+      {"name": "은혁", "aliases": ["은혁", "Eunhyuk"]},
+      {"name": "동해", "aliases": ["동해", "Donghae"]},
+      {"name": "시원", "aliases": ["시원", "Siwon"]},
+      {"name": "려욱", "aliases": ["려욱", "Ryeowook"]},
+      {"name": "기범", "aliases": ["기범", "Kibum"]},
+      {"name": "규현", "aliases": ["규현", "Kyuhyun"]}
+    ]
+  },
+  "Red Velvet": {
+    "aliases": ["Red Velvet", "레드벨벳", "레벨"],
+    "members": [
+      {"name": "아이린", "aliases": ["아이린", "배주현", "Irene"]},
+      {"name": "슬기", "aliases": ["슬기", "강슬기", "Seulgi"]},
+      {"name": "웬디", "aliases": ["웬디", "손승완", "Wendy"]},
+      {"name": "조이", "aliases": ["조이", "박수영", "Joy"]},
+      {"name": "예리", "aliases": ["예리", "김예림", "Yeri"]}
+    ]
+  },
+  "f(x)": {
+    "aliases": ["f(x)", "에프엑스"],
+    "members": [
+      {"name": "빅토리아", "aliases": ["빅토리아", "Victoria"]},
+      {"name": "엠버", "aliases": ["엠버", "Amber"]},
+      {"name": "루나", "aliases": ["루나", "Luna"]},
+      {"name": "크리스탈", "aliases": ["크리스탈", "Krystal"]},
+      {"name": "설리", "aliases": ["설리", "Sulli"]}
+    ]
+  },
+  "Girls' Generation": {
+    "aliases": ["Girls' Generation", "소녀시대", "SNSD", "소시"],
+    "members": [
+      {"name": "태연", "aliases": ["태연", "김태연", "Taeyeon"]},
+      {"name": "써니", "aliases": ["써니", "Sunny"]},
+      {"name": "티파니", "aliases": ["티파니", "Tiffany"]},
+      {"name": "효연", "aliases": ["효연", "Hyoyeon"]},
+      {"name": "유리", "aliases": ["유리", "Yuri"]},
+      {"name": "수영", "aliases": ["수영", "Sooyoung"]},
+      {"name": "윤아", "aliases": ["윤아", "이윤아", "Yoona"]},
+      {"name": "서현", "aliases": ["서현", "Seohyun"]},
+      {"name": "제시카", "aliases": ["제시카", "Jessica"]}
+    ]
+  },
+  "MAMAMOO": {
+    "aliases": ["MAMAMOO", "마마무"],
+    "members": [
+      {"name": "솔라", "aliases": ["솔라", "Solar"]},
+      {"name": "문별", "aliases": ["문별", "Moonbyul"]},
+      {"name": "휠인", "aliases": ["휠인", "Wheein"]},
+      {"name": "화사", "aliases": ["화사", "Hwasa"]}
+    ]
+  },
+  "SISTAR": {
+    "aliases": ["SISTAR", "씨스타"],
+    "members": [
+      {"name": "효린", "aliases": ["효린", "Hyolyn"]},
+      {"name": "보라", "aliases": ["보라", "Bora"]},
+      {"name": "소유", "aliases": ["소유", "Soyu"]},
+      {"name": "다솜", "aliases": ["다솜", "Dasom"]}
+    ]
+  },
+  "4MINUTE": {
+    "aliases": ["4MINUTE", "포미닛"],
+    "members": [
+      {"name": "현아", "aliases": ["현아", "HyunA", "김현아"]},
+      {"name": "지윤", "aliases": ["지윤", "Jiyoon"]},
+      {"name": "가윤", "aliases": ["가윤", "Gayoon"]},
+      {"name": "허가윤", "aliases": ["허가윤"]},
+      {"name": "남지현", "aliases": ["남지현", "Jihyun"]}
+    ]
+  },
+  "KARA": {
+    "aliases": ["KARA", "카라"],
+    "members": [
+      {"name": "박규리", "aliases": ["박규리", "규리", "Gyuri"]},
+      {"name": "한승연", "aliases": ["한승연", "승연", "Seungyeon"]},
+      {"name": "구하라", "aliases": ["구하라", "하라", "Hara"]},
+      {"name": "강지영", "aliases": ["강지영", "지영", "Jiyoung"]},
+      {"name": "허영지", "aliases": ["허영지", "영지", "Youngji"]}
+    ]
+  },
+  "AOA": {
+    "aliases": ["AOA", "에이오에이"],
+    "members": [
+      {"name": "설현", "aliases": ["설현", "Seolhyun"]},
+      {"name": "지민", "aliases": ["민지민", "Jimin"]},
+      {"name": "유나", "aliases": ["유나", "Yuna"]},
+      {"name": "초아", "aliases": ["초아", "Choa"]},
+      {"name": "민아", "aliases": ["민아", "Mina"]}
+    ]
+  },
+  "fromis_9": {
+    "aliases": ["fromis_9", "프로미스나인", "프로미스9", "프나인"],
+    "members": [
+      {"name": "이새롬", "aliases": ["이새롬", "새롬", "Saerom"]},
+      {"name": "노지선", "aliases": ["노지선", "지선", "Jisun"]},
+      {"name": "이서연", "aliases": ["이서연", "서연", "Seoyeon"]},
+      {"name": "송하영", "aliases": ["송하영", "하영", "Hayoung"]},
+      {"name": "이채영", "aliases": ["이채영", "채영", "Chaeyoung"]},
+      {"name": "박지원", "aliases": ["박지원", "지원", "Jiwon"]},
+      {"name": "이나경", "aliases": ["이나경", "나경", "Nagyung"]},
+      {"name": "백지헌", "aliases": ["백지헌", "지헌", "Jiheon"]},
+      {"name": "이가람", "aliases": ["이가람", "가람", "Garam"]}
+    ]
+  },
+  "LOONA": {
+    "aliases": ["LOONA", "이달의소녀", "이달소"],
+    "members": [
+      {"name": "희진", "aliases": ["희진", "Heejin"]},
+      {"name": "현진", "aliases": ["현진", "Hyunjin"]},
+      {"name": "하슬", "aliases": ["하슬", "Haseul"]},
+      {"name": "여진", "aliases": ["여진", "Yeojin"]},
+      {"name": "비비", "aliases": ["비비", "Vivi"]},
+      {"name": "김립", "aliases": ["김립", "Kim Lip"]},
+      {"name": "진솔", "aliases": ["진솔", "Jinsoul"]},
+      {"name": "최리", "aliases": ["최리", "Choerry"]},
+      {"name": "이브", "aliases": ["이브", "Yves"]},
+      {"name": "츄", "aliases": ["츄", "Chuu"]},
+      {"name": "고원", "aliases": ["고원", "Go Won"]},
+      {"name": "올리비아혜", "aliases": ["올리비아혜", "Olivia Hye"]}
+    ]
+  },
+  "(G)I-DLE": {
+    "aliases": ["(G)I-DLE", "여자아이들", "여아이들", "GIDLE"],
+    "members": [
+      {"name": "소연", "aliases": ["소연", "전소연", "Soyeon"]},
+      {"name": "민니", "aliases": ["민니", "Minnie"]},
+      {"name": "수진", "aliases": ["수진", "서수진", "Soojin"]},
+      {"name": "우기", "aliases": ["우기", "Yuqi"]},
+      {"name": "슈화", "aliases": ["슈화", "Shuhua"]},
+      {"name": "미연", "aliases": ["미연", "Miyeon"]}
+    ]
+  },
+  "HIGHLIGHT": {
+    "aliases": ["HIGHLIGHT", "하이라이트", "B2ST", "BEAST", "비스트"],
+    "members": [
+      {"name": "윤두준", "aliases": ["윤두준", "두준", "Doojoon"]},
+      {"name": "양요섭", "aliases": ["양요섭", "요섭", "Yoseob"]},
+      {"name": "이기광", "aliases": ["이기광", "기광", "Kikwang"]},
+      {"name": "손동운", "aliases": ["손동운", "동운", "Dongwoon"]}
+    ]
+  },
+  "DAY6": {
+    "aliases": ["DAY6", "데이식스"],
+    "members": [
+      {"name": "성진", "aliases": ["성진", "Sungjin"]},
+      {"name": "제이", "aliases": ["제이", "Jae"]},
+      {"name": "영케이", "aliases": ["영케이", "Young K"]},
+      {"name": "원필", "aliases": ["원필", "Wonpil"]},
+      {"name": "도운", "aliases": ["도운", "Dowoon"]}
+    ]
+  },
+  "BTOB": {
+    "aliases": ["BTOB", "비투비"],
+    "members": [
+      {"name": "은광", "aliases": ["은광", "Eunkwang"]},
+      {"name": "민혁", "aliases": ["민혁", "Minhyuk"]},
+      {"name": "창섭", "aliases": ["창섭", "Changsub"]},
+      {"name": "현식", "aliases": ["현식", "Hyunsik"]},
+      {"name": "프니엘", "aliases": ["프니엘", "Peniel"]},
+      {"name": "일훈", "aliases": ["일훈", "Ilhoon"]},
+      {"name": "성재", "aliases": ["성재", "Sungjae"]}
+    ]
+  },
+  "VICTON": {
+    "aliases": ["VICTON", "빅톤"],
+    "members": [
+      {"name": "한승우", "aliases": ["한승우", "승우", "Seungwoo"]},
+      {"name": "강승식", "aliases": ["강승식", "승식", "Seungsik"]},
+      {"name": "임세준", "aliases": ["임세준", "세준", "Sejun"]},
+      {"name": "최병찬", "aliases": ["최병찬", "병찬", "Byungchan"]},
+      {"name": "도하나", "aliases": ["도하나", "하나", "Hana"]},
+      {"name": "정수빈", "aliases": ["정수빈", "수빈", "Subin"]},
+      {"name": "허찬", "aliases": ["허찬", "찬", "Chan"]}
+    ]
+  },
+  "ATEEZ": {
+    "aliases": ["ATEEZ", "에이티즈"],
+    "members": [
+      {"name": "홍중", "aliases": ["홍중", "Hongjoong"]},
+      {"name": "성화", "aliases": ["성화", "Seonghwa"]},
+      {"name": "윤호", "aliases": ["윤호", "Yunho"]},
+      {"name": "여상", "aliases": ["여상", "Yeosang"]},
+      {"name": "산", "aliases": ["산", "San"]},
+      {"name": "민기", "aliases": ["민기", "Mingi"]},
+      {"name": "우영", "aliases": ["우영", "Wooyoung"]},
+      {"name": "종호", "aliases": ["종호", "Jongho"]}
+    ]
+  },
+  "THE BOYZ": {
+    "aliases": ["THE BOYZ", "더보이즈", "더보이"],
+    "members": [
+      {"name": "상연", "aliases": ["상연", "Sangyeon"]},
+      {"name": "제이콥", "aliases": ["제이콥", "Jacob"]},
+      {"name": "영훈", "aliases": ["영훈", "Younghoon"]},
+      {"name": "현재", "aliases": ["현재", "Hyunjae"]},
+      {"name": "주연", "aliases": ["주연", "Juyeon"]},
+      {"name": "케빈", "aliases": ["케빈", "Kevin"]},
+      {"name": "뉴", "aliases": ["뉴", "New"]},
+      {"name": "Q", "aliases": ["Q", "큐"]},
+      {"name": "주학년", "aliases": ["주학년", "Haknyeon"]},
+      {"name": "선우", "aliases": ["선우", "Sunwoo"]},
+      {"name": "에릭", "aliases": ["에릭", "Eric"]}
+    ]
+  },
+  "CRAVITY": {
+    "aliases": ["CRAVITY", "크래비티"],
+    "members": [
+      {"name": "세림", "aliases": ["세림", "Serim"]},
+      {"name": "알렌", "aliases": ["알렌", "Allen"]},
+      {"name": "정모", "aliases": ["정모", "Jungmo"]},
+      {"name": "원진", "aliases": ["원진", "Wonjin"]},
+      {"name": "우빈", "aliases": ["우빈", "Woobin"]},
+      {"name": "민희", "aliases": ["민희", "Minhee"]},
+      {"name": "형준", "aliases": ["형준", "Hyeongjun"]},
+      {"name": "태영", "aliases": ["태영", "Taeyoung"]},
+      {"name": "세진", "aliases": ["세진", "Sejin"]}
+    ]
+  },
+  "IU": {
+    "aliases": ["IU", "아이유", "이지은"],
+    "members": [
+      {"name": "IU", "aliases": ["IU", "아이유", "이지은"]}
+    ]
+  },
+  "태연": {
+    "aliases": ["태연솔로", "태연 솔로"],
+    "members": [
+      {"name": "태연", "aliases": ["김태연솔로"]}
+    ]
+  },
+  "현아": {
+    "aliases": ["현아솔로", "현아 솔로"],
+    "members": [
+      {"name": "현아", "aliases": ["HyunA솔로"]}
+    ]
+  },
+  "청하": {
+    "aliases": ["청하", "Chungha"],
+    "members": [
+      {"name": "청하", "aliases": ["청하", "Chungha", "김청하"]}
+    ]
+  },
+  "선미": {
+    "aliases": ["선미", "Sunmi"],
+    "members": [
+      {"name": "선미", "aliases": ["선미", "Sunmi"]}
+    ]
+  },
+  "DRIPPIN": {
+    "aliases": ["DRIPPIN", "드리핀"],
+    "members": [
+      {"name": "현수", "aliases": ["현수", "Hyeonseo"]},
+      {"name": "윤회", "aliases": ["윤회", "Yunhoe"]},
+      {"name": "황동준", "aliases": ["황동준", "Dongjun"]},
+      {"name": "차준호", "aliases": ["차준호", "Junho"]},
+      {"name": "최창훈", "aliases": ["최창훈", "Changhun"]},
+      {"name": "알렉스", "aliases": ["알렉스", "Alex"]},
+      {"name": "민seong", "aliases": ["민성", "Minseong"]}
+    ]
+  },
+  "TNX": {
+    "aliases": ["TNX", "티엔엑스"],
+    "members": [
+      {"name": "원", "aliases": ["원", "Taehun"]},
+      {"name": "경준", "aliases": ["경준", "Kyungjun"]},
+      {"name": "노태현", "aliases": ["노태현", "Taehyun"]},
+      {"name": "박성원", "aliases": ["박성원", "Sungwon"]},
+      {"name": "김지웅", "aliases": ["김지웅"]}
+    ]
+  },
+  "P1Harmony": {
+    "aliases": ["P1Harmony", "피원하모니", "피원"],
+    "members": [
+      {"name": "기태", "aliases": ["기태", "Keeho"]},
+      {"name": "이찬", "aliases": ["이찬", "Theo"]},
+      {"name": "지웅", "aliases": ["지웅", "Jiung"]},
+      {"name": "인탁", "aliases": ["인탁", "Intak"]},
+      {"name": "소울", "aliases": ["소울", "Soul"]},
+      {"name": "젝스", "aliases": ["젝스", "Jongseob"]}
     ]
   }
 }

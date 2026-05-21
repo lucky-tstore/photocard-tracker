@@ -86,7 +86,11 @@ def main():
     except Exception as e:
         print(f"  → 중고나라 오류: {e}")
 
-    print(f"\n총 신규 수집: {len(all_new)}개")
+    # 이상 가격 필터링 (1,000원 미만 또는 700,000원 초과)
+    before = len(all_new)
+    all_new = [i for i in all_new if 1000 <= i["price"] <= 700000]
+    print(f"\n가격 필터링: {before - len(all_new)}개 제거 (이상 가격)")
+    print(f"총 신규 수집: {len(all_new)}개")
 
     # 아이돌 파싱
     print("아이돌/멤버 파싱 중...")
