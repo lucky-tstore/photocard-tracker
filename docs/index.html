@@ -7,6 +7,7 @@
   <meta name="description" content="번개장터, 중고나라의 아이돌 포토카드 시세를 한눈에! BTS, 블랙핑크, 에스파, 뉴진스 등 실시간 포카 시세 무료 조회" />
   <meta property="og:title" content="포카시세 - 아이돌 포토카드 실시간 시세" />
   <meta property="og:description" content="번개장터, 중고나라 포토카드 거래 시세를 자동 수집합니다" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💜</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
@@ -20,6 +21,7 @@
       --text: #1a1a2e;
       --muted: #888;
       --radius: 14px;
+      --tab-h: 52px;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
@@ -35,51 +37,52 @@
     header p { margin-top: 5px; font-size: 0.88rem; opacity: 0.85; }
 
     .search-wrap {
-      display: flex;
-      gap: 8px;
-      max-width: 540px;
-      margin: 16px auto 0;
+      display: flex; gap: 8px;
+      max-width: 540px; margin: 16px auto 0;
     }
     .search-wrap input {
-      flex: 1;
-      padding: 13px 18px;
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-family: inherit;
-      outline: none;
-      min-width: 0;
+      flex: 1; padding: 13px 18px;
+      border: none; border-radius: 12px;
+      font-size: 1rem; font-family: inherit; outline: none; min-width: 0;
     }
     .search-wrap button {
       padding: 13px 22px;
-      background: rgba(255,255,255,0.2);
-      color: #fff;
-      border: 2px solid rgba(255,255,255,0.5);
-      border-radius: 12px;
-      font-weight: 700;
-      font-family: inherit;
-      cursor: pointer;
-      font-size: 0.95rem;
-      white-space: nowrap;
-      transition: background 0.15s;
+      background: rgba(255,255,255,0.2); color: #fff;
+      border: 2px solid rgba(255,255,255,0.5); border-radius: 12px;
+      font-weight: 700; font-family: inherit; cursor: pointer;
+      font-size: 0.95rem; white-space: nowrap; transition: background 0.15s;
     }
     .search-wrap button:hover { background: rgba(255,255,255,0.35); }
     .last-updated { margin-top: 10px; font-size: 0.76rem; opacity: 0.65; }
 
-    /* ── 그룹 탭 ── */
-    .tabs-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 14px 16px 0; }
+    /* ── sticky 탭 ── */
+    .tabs-outer {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .tabs-scroll-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+    /* 오른쪽 페이드 — 탭이 더 있다는 힌트 */
+    .tabs-scroll-wrap::after {
+      content: '';
+      position: absolute; right: 0; top: 0; bottom: 0; width: 48px;
+      background: linear-gradient(to right, transparent, var(--bg));
+      pointer-events: none;
+    }
+    .tabs-wrap {
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      padding: 10px 16px; scrollbar-width: none;
+    }
+    .tabs-wrap::-webkit-scrollbar { display: none; }
     .tabs { display: flex; gap: 8px; width: max-content; }
     .tab {
-      padding: 8px 18px;
-      border-radius: 20px;
-      background: var(--card);
-      border: 2px solid var(--border);
-      cursor: pointer;
-      font-size: 0.84rem;
-      font-weight: 500;
-      white-space: nowrap;
-      transition: all 0.15s;
-      font-family: inherit;
+      padding: 7px 18px; border-radius: 20px;
+      background: var(--card); border: 2px solid var(--border);
+      cursor: pointer; font-size: 0.84rem; font-weight: 500;
+      white-space: nowrap; transition: all 0.15s; font-family: inherit;
     }
     .tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .tab:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
@@ -87,51 +90,20 @@
     /* ── 메인 ── */
     main { max-width: 900px; margin: 0 auto; padding: 16px 16px 80px; }
 
-    /* ── 필터 바 ── */
-    .filter-bar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-    .filter-bar select, .filter-bar input[type=number] {
-      padding: 8px 12px;
-      border: 2px solid var(--border);
-      border-radius: 10px;
-      font-size: 0.85rem;
-      font-family: inherit;
-      background: var(--card);
-      color: var(--text);
-      outline: none;
-      cursor: pointer;
-    }
-    .filter-bar select:focus, .filter-bar input[type=number]:focus { border-color: var(--primary); }
-    .filter-bar input[type=number] { width: 110px; }
-    .filter-label { font-size: 0.82rem; color: var(--muted); }
-    .price-range { display: flex; align-items: center; gap: 6px; }
-
     /* ── 섹션 제목 ── */
     .section-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #555;
+      font-size: 0.95rem; font-weight: 700; color: #555;
       margin: 20px 0 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      display: flex; align-items: center; gap: 8px;
     }
     .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
     /* ── 그룹 시세 카드 ── */
     .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
     .stat-card {
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: all 0.15s;
+      background: var(--card); border-radius: var(--radius);
+      padding: 14px 16px; cursor: pointer;
+      border: 2px solid transparent; transition: all 0.15s;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
     .stat-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.1); }
@@ -143,13 +115,9 @@
     /* ── 멤버 카드 ── */
     .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
     .member-card {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 12px 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: all 0.15s;
+      background: var(--card); border-radius: 12px;
+      padding: 12px 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      cursor: pointer; border: 2px solid transparent; transition: all 0.15s;
     }
     .member-card:hover { border-color: var(--accent); }
     .member-card.selected { border-color: var(--primary); background: var(--primary-light); }
@@ -157,62 +125,105 @@
     .member-card .m-price { font-size: 0.98rem; font-weight: 700; color: var(--accent); margin-top: 4px; }
     .member-card .m-count { font-size: 0.71rem; color: var(--muted); margin-top: 2px; }
 
+    /* ── 필터 바 ── */
+    .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+    .filter-bar select {
+      padding: 8px 12px; border: 2px solid var(--border); border-radius: 10px;
+      font-size: 0.85rem; font-family: inherit; background: var(--card);
+      color: var(--text); outline: none; cursor: pointer;
+    }
+    .filter-bar select:focus { border-color: var(--primary); }
+
+    /* 가격 프리셋 버튼 */
+    .price-presets { display: flex; gap: 6px; flex-wrap: wrap; }
+    .preset-btn {
+      padding: 7px 13px; border-radius: 20px;
+      background: var(--card); border: 2px solid var(--border);
+      font-size: 0.78rem; font-weight: 600; font-family: inherit;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap; color: var(--text);
+    }
+    .preset-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .preset-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* 공유 버튼 */
+    .share-btn {
+      margin-left: auto;
+      padding: 7px 16px; border-radius: 20px;
+      background: var(--card); border: 2px solid var(--border);
+      font-size: 0.82rem; font-weight: 600; font-family: inherit;
+      cursor: pointer; transition: all 0.15s; color: var(--text);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .share-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ── 결과 헤더 ── */
+    .result-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+    .result-info { font-size: 0.82rem; color: var(--muted); }
+
     /* ── 거래 목록 ── */
-    .result-info { font-size: 0.82rem; color: var(--muted); margin-bottom: 10px; }
     .listings { display: flex; flex-direction: column; gap: 8px; }
     .listing-card {
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 12px 14px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      text-decoration: none;
-      color: inherit;
-      transition: box-shadow 0.15s;
-      border: 2px solid transparent;
+      background: var(--card); border-radius: var(--radius);
+      padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-decoration: none; color: inherit;
+      transition: box-shadow 0.15s; border: 2px solid transparent;
     }
     .listing-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); border-color: var(--border); }
     .listing-img {
-      width: 60px; height: 60px;
-      border-radius: 10px;
-      object-fit: cover;
-      flex-shrink: 0;
-      background: var(--bg);
+      width: 60px; height: 60px; border-radius: 10px;
+      object-fit: cover; flex-shrink: 0; background: var(--bg);
     }
     .listing-img-placeholder {
-      width: 60px; height: 60px;
-      border-radius: 10px;
+      width: 60px; height: 60px; border-radius: 10px;
       background: linear-gradient(135deg, #f0e0f5, var(--border));
-      flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
     }
     .listing-info { flex: 1; min-width: 0; }
-    .listing-title { font-size: 0.88rem; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    /* 제목 2줄 표시 */
+    .listing-title {
+      font-size: 0.88rem; font-weight: 500;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden; line-height: 1.4;
+    }
     .listing-meta { margin-top: 5px; display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
     .badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
     .badge-platform { background: #f0e0f5; color: var(--accent); }
     .badge-group { background: #e8f0fe; color: #3a60c8; }
     .badge-member { background: #e8fce8; color: #2a8a2a; }
     .listing-date { font-size: 0.7rem; color: var(--muted); }
-    .listing-price { font-weight: 700; font-size: 1.05rem; color: var(--primary); white-space: nowrap; flex-shrink: 0; }
+    .listing-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+    .listing-price { font-weight: 700; font-size: 1.05rem; color: var(--primary); white-space: nowrap; }
 
     /* ── 더보기 ── */
     .load-more {
-      display: block; margin: 20px auto 0;
-      padding: 12px 36px;
-      background: var(--card);
-      border: 2px solid var(--accent);
-      color: var(--accent);
-      border-radius: var(--radius);
-      font-size: 0.95rem; font-weight: 700; font-family: inherit;
-      cursor: pointer; transition: all 0.15s;
+      display: block; margin: 20px auto 0; padding: 12px 36px;
+      background: var(--card); border: 2px solid var(--accent); color: var(--accent);
+      border-radius: var(--radius); font-size: 0.95rem; font-weight: 700;
+      font-family: inherit; cursor: pointer; transition: all 0.15s;
     }
     .load-more:hover { background: var(--accent); color: #fff; }
 
-    .empty { text-align: center; color: var(--muted); padding: 48px 0; font-size: 0.95rem; }
+    /* ── 빈 상태 ── */
+    .empty-state {
+      text-align: center; padding: 48px 20px; color: var(--muted);
+    }
+    .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .empty-state p { font-size: 0.95rem; margin-bottom: 16px; }
+    .empty-state button {
+      padding: 10px 24px; border-radius: 12px;
+      background: var(--primary); color: #fff; border: none;
+      font-size: 0.9rem; font-weight: 700; font-family: inherit; cursor: pointer;
+    }
+
+    /* ── 토스트 ── */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: #1a1a2e; color: #fff; padding: 12px 24px; border-radius: 12px;
+      font-size: 0.88rem; font-weight: 600; z-index: 999;
+      transition: transform 0.3s ease; pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
     .loading { text-align: center; padding: 48px 0; color: var(--muted); }
     .spinner {
       display: inline-block; width: 34px; height: 34px;
@@ -227,10 +238,10 @@
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .member-grid { grid-template-columns: repeat(3, 1fr); }
       .filter-bar { gap: 6px; }
-      .filter-bar select, .filter-bar input[type=number] { font-size: 0.8rem; padding: 7px 10px; }
-      .filter-bar input[type=number] { width: 90px; }
+      .filter-bar select { font-size: 0.8rem; padding: 7px 10px; }
       .listing-img, .listing-img-placeholder { width: 52px; height: 52px; }
       .listing-price { font-size: 0.95rem; }
+      .share-btn span { display: none; }
     }
   </style>
 </head>
@@ -246,9 +257,14 @@
   <div class="last-updated" id="lastUpdated"></div>
 </header>
 
-<div class="tabs-wrap">
-  <div class="tabs" id="groupTabs">
-    <button class="tab active" onclick="selectGroup(null, this)">전체</button>
+<!-- sticky 탭 -->
+<div class="tabs-outer">
+  <div class="tabs-scroll-wrap">
+    <div class="tabs-wrap">
+      <div class="tabs" id="groupTabs">
+        <button class="tab active" onclick="selectGroup(null, this)">전체</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -273,19 +289,26 @@
       <option value="price_asc">낮은 가격순</option>
       <option value="price_desc">높은 가격순</option>
     </select>
-    <div class="price-range">
-      <span class="filter-label">가격</span>
-      <input type="number" id="minPrice" placeholder="최소" min="0" step="1000" oninput="applyFilter()" />
-      <span class="filter-label">~</span>
-      <input type="number" id="maxPrice" placeholder="최대" min="0" step="1000" oninput="applyFilter()" />
-      <span class="filter-label">원</span>
+    <div class="price-presets" id="pricePresets">
+      <button class="preset-btn active" data-min="0" data-max="Infinity" onclick="setPreset(this)">전체</button>
+      <button class="preset-btn" data-min="0" data-max="9999" onclick="setPreset(this)">1만원 미만</button>
+      <button class="preset-btn" data-min="10000" data-max="29999" onclick="setPreset(this)">1~3만원</button>
+      <button class="preset-btn" data-min="30000" data-max="49999" onclick="setPreset(this)">3~5만원</button>
+      <button class="preset-btn" data-min="50000" data-max="Infinity" onclick="setPreset(this)">5만원 이상</button>
     </div>
+    <button class="share-btn" onclick="copyLink()">🔗 <span>링크 복사</span></button>
   </div>
 
-  <div class="result-info" id="resultInfo"></div>
+  <div class="result-header">
+    <div class="result-info" id="resultInfo"></div>
+  </div>
+
   <div class="listings" id="listingsContainer"></div>
   <button class="load-more" id="loadMoreBtn" style="display:none" onclick="loadMore()">더 보기</button>
 </main>
+
+<!-- 토스트 메시지 -->
+<div class="toast" id="toast"></div>
 
 <script>
 let allData = null;
@@ -293,24 +316,26 @@ let currentGroup = null;
 let currentMember = null;
 let currentSearch = "";
 let displayedCount = 20;
+let priceMin = 0;
+let priceMax = Infinity;
 
+/* ── 데이터 로드 ── */
 async function loadData() {
   try {
     const resp = await fetch("data/prices.json?t=" + Date.now());
-    if (!resp.ok) throw new Error("fetch failed");
+    if (!resp.ok) throw new Error();
     allData = await resp.json();
     init();
-  } catch (e) {
+  } catch {
     document.getElementById("statsGrid").innerHTML =
-      '<div class="empty">데이터를 불러올 수 없습니다.<br>잠시 후 다시 시도해주세요.</div>';
+      '<div style="grid-column:1/-1"><div class="empty-state"><div class="empty-icon">😢</div><p>데이터를 불러올 수 없습니다.<br>잠시 후 다시 시도해주세요.</p></div></div>';
   }
 }
 
 function init() {
   if (!allData) return;
-  if (allData.last_updated) {
+  if (allData.last_updated)
     document.getElementById("lastUpdated").textContent = "마지막 업데이트: " + allData.last_updated;
-  }
   renderGroupTabs();
   renderStatsGrid();
   renderListings();
@@ -333,6 +358,8 @@ function renderGroupTabs() {
 function selectGroup(group, el) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   el.classList.add("active");
+  // 선택된 탭이 보이도록 스크롤
+  el.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
   currentGroup = group;
   currentMember = null;
   displayedCount = 20;
@@ -351,10 +378,10 @@ function renderStatsGrid() {
   } else {
     entries = entries.sort((a, b) => b[1].count - a[1].count).slice(0, 24);
   }
-  if (!entries.length) { grid.innerHTML = '<div class="empty">데이터 없음</div>'; return; }
+  if (!entries.length) { grid.innerHTML = '<div class="empty-state"><p>데이터 없음</p></div>'; return; }
   grid.innerHTML = entries.map(([g, s]) => `
-    <div class="stat-card ${currentGroup === g ? 'selected' : ''}" onclick="selectGroup('${g}', this)">
-      <div class="g-name">${g}</div>
+    <div class="stat-card ${currentGroup === g ? 'selected' : ''}" onclick="selectGroup('${escHtml(g)}', this)">
+      <div class="g-name">${escHtml(g)}</div>
       <div class="g-avg">${s.avg.toLocaleString()}원</div>
       <div class="g-sub">최저 ${s.min.toLocaleString()} · ${s.count}건</div>
     </div>`).join("");
@@ -370,8 +397,8 @@ function renderMemberGrid() {
   document.getElementById("memberSectionTitle").textContent = currentGroup + " 멤버별 시세";
   section.style.display = "block";
   document.getElementById("memberGrid").innerHTML = members.map(([m, s]) => `
-    <div class="member-card ${currentMember === m ? 'selected' : ''}" onclick="selectMember('${m}', this)">
-      <div class="m-name">${m}</div>
+    <div class="member-card ${currentMember === m ? 'selected' : ''}" onclick="selectMember('${escHtml(m)}', this)">
+      <div class="m-name">${escHtml(m)}</div>
       <div class="m-price">${s.avg.toLocaleString()}원</div>
       <div class="m-count">${s.count}건</div>
     </div>`).join("");
@@ -385,17 +412,25 @@ function selectMember(member, el) {
   renderListings();
 }
 
-/* ── 거래 목록 ── */
+/* ── 가격 프리셋 ── */
+function setPreset(btn) {
+  document.querySelectorAll(".preset-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  priceMin = Number(btn.dataset.min) || 0;
+  priceMax = btn.dataset.max === "Infinity" ? Infinity : Number(btn.dataset.max);
+  displayedCount = 20;
+  renderListings();
+}
+
+/* ── 필터링 ── */
 function getFilteredItems() {
   if (!allData?.items) return [];
   const sort = document.getElementById("sortSelect")?.value || "date";
-  const minP = parseInt(document.getElementById("minPrice")?.value) || 0;
-  const maxP = parseInt(document.getElementById("maxPrice")?.value) || Infinity;
 
   let items = allData.items.filter(item => {
     if (currentGroup && item.group !== currentGroup) return false;
     if (currentMember && item.member !== currentMember) return false;
-    if (item.price < minP || item.price > maxP) return false;
+    if (item.price < priceMin || item.price > priceMax) return false;
     if (currentSearch) {
       const q = currentSearch.toLowerCase();
       if (!item.title.toLowerCase().includes(q) &&
@@ -424,8 +459,16 @@ function renderListings() {
   document.getElementById("resultInfo").textContent = "총 " + items.length.toLocaleString() + "건";
 
   const slice = items.slice(0, displayedCount);
+
   if (!slice.length) {
-    container.innerHTML = '<div class="empty">거래글이 없습니다</div>';
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <p>${currentSearch ? '"' + escHtml(currentSearch) + '" 검색 결과가 없어요.' :
+           currentGroup ? escHtml(currentGroup) + ' 포카 거래글이 없어요.' :
+           '조건에 맞는 거래글이 없어요.'}</p>
+        <button onclick="resetAll()">전체 보기로 돌아가기</button>
+      </div>`;
     loadMoreBtn.style.display = "none";
     return;
   }
@@ -434,25 +477,34 @@ function renderListings() {
     <a class="listing-card" href="${item.link}" target="_blank" rel="noopener noreferrer">
       ${item.image
         ? `<img class="listing-img" src="${item.image}" alt="" loading="lazy"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
            <div class="listing-img-placeholder" style="display:none">💜</div>`
         : `<div class="listing-img-placeholder">💜</div>`}
       <div class="listing-info">
         <div class="listing-title">${escHtml(item.title)}</div>
         <div class="listing-meta">
           <span class="badge badge-platform">${item.platform}</span>
-          ${item.group ? `<span class="badge badge-group">${item.group}</span>` : ""}
-          ${item.member ? `<span class="badge badge-member">${item.member}</span>` : ""}
+          ${item.group ? `<span class="badge badge-group">${escHtml(item.group)}</span>` : ""}
+          ${item.member ? `<span class="badge badge-member">${escHtml(item.member)}</span>` : ""}
           <span class="listing-date">${item.date || ""}</span>
         </div>
       </div>
-      <div class="listing-price">${item.price.toLocaleString()}원</div>
+      <div class="listing-right">
+        <div class="listing-price">${item.price.toLocaleString()}원</div>
+      </div>
     </a>`).join("");
 
   loadMoreBtn.style.display = items.length > displayedCount ? "block" : "none";
 }
 
-function loadMore() { displayedCount += 20; renderListings(); }
+function loadMore() {
+  const prev = displayedCount;
+  displayedCount += 20;
+  renderListings();
+  // 새로 추가된 첫 번째 항목으로 부드럽게 스크롤
+  const cards = document.querySelectorAll(".listing-card");
+  if (cards[prev]) cards[prev].scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
 function applyFilter() { displayedCount = 20; renderListings(); }
 
@@ -464,8 +516,33 @@ function doSearch() {
   renderStatsGrid(); renderMemberGrid(); renderListings();
 }
 
+function resetAll() {
+  currentGroup = null; currentMember = null; currentSearch = "";
+  priceMin = 0; priceMax = Infinity; displayedCount = 20;
+  document.getElementById("searchInput").value = "";
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.querySelector(".tab").classList.add("active");
+  document.querySelectorAll(".preset-btn").forEach(b => b.classList.remove("active"));
+  document.querySelector(".preset-btn").classList.add("active");
+  renderStatsGrid(); renderMemberGrid(); renderListings();
+}
+
+/* ── 링크 복사 ── */
+function copyLink() {
+  navigator.clipboard.writeText(location.href).then(() => showToast("링크가 복사되었습니다! 💜"));
+}
+
+/* ── 토스트 ── */
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2500);
+}
+
 function escHtml(s) {
-  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  if (!s) return "";
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
 
 document.getElementById("searchInput").addEventListener("keydown", e => {
