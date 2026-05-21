@@ -21,68 +21,45 @@
       --text: #1a1a2e;
       --muted: #888;
       --radius: 14px;
-      --tab-h: 52px;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
     /* ── 헤더 ── */
     header {
       background: linear-gradient(135deg, #c678a8 0%, #7c4dff 100%);
-      color: #fff;
-      padding: 28px 16px 22px;
-      text-align: center;
+      color: #fff; padding: 28px 16px 22px; text-align: center;
     }
     header h1 { font-size: 2rem; font-weight: 700; letter-spacing: -1px; }
     header p { margin-top: 5px; font-size: 0.88rem; opacity: 0.85; }
-
-    .search-wrap {
-      display: flex; gap: 8px;
-      max-width: 540px; margin: 16px auto 0;
-    }
+    .search-wrap { display: flex; gap: 8px; max-width: 540px; margin: 16px auto 0; }
     .search-wrap input {
-      flex: 1; padding: 13px 18px;
-      border: none; border-radius: 12px;
+      flex: 1; padding: 13px 18px; border: none; border-radius: 12px;
       font-size: 1rem; font-family: inherit; outline: none; min-width: 0;
     }
     .search-wrap button {
-      padding: 13px 22px;
-      background: rgba(255,255,255,0.2); color: #fff;
+      padding: 13px 22px; background: rgba(255,255,255,0.2); color: #fff;
       border: 2px solid rgba(255,255,255,0.5); border-radius: 12px;
-      font-weight: 700; font-family: inherit; cursor: pointer;
-      font-size: 0.95rem; white-space: nowrap; transition: background 0.15s;
+      font-weight: 700; font-family: inherit; cursor: pointer; white-space: nowrap;
     }
     .search-wrap button:hover { background: rgba(255,255,255,0.35); }
     .last-updated { margin-top: 10px; font-size: 0.76rem; opacity: 0.65; }
 
     /* ── sticky 탭 ── */
-    .tabs-outer {
-      position: sticky; top: 0; z-index: 100;
-      background: var(--bg);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    .tabs-scroll-wrap {
-      position: relative;
-      overflow: hidden;
-    }
-    /* 오른쪽 페이드 — 탭이 더 있다는 힌트 */
+    .tabs-outer { position: sticky; top: 0; z-index: 100; background: var(--bg); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .tabs-scroll-wrap { position: relative; overflow: hidden; }
     .tabs-scroll-wrap::after {
-      content: '';
-      position: absolute; right: 0; top: 0; bottom: 0; width: 48px;
-      background: linear-gradient(to right, transparent, var(--bg));
-      pointer-events: none;
+      content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 48px;
+      background: linear-gradient(to right, transparent, var(--bg)); pointer-events: none;
     }
-    .tabs-wrap {
-      overflow-x: auto; -webkit-overflow-scrolling: touch;
-      padding: 10px 16px; scrollbar-width: none;
-    }
+    .tabs-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 16px; scrollbar-width: none; }
     .tabs-wrap::-webkit-scrollbar { display: none; }
     .tabs { display: flex; gap: 8px; width: max-content; }
     .tab {
-      padding: 7px 18px; border-radius: 20px;
-      background: var(--card); border: 2px solid var(--border);
-      cursor: pointer; font-size: 0.84rem; font-weight: 500;
-      white-space: nowrap; transition: all 0.15s; font-family: inherit;
+      padding: 7px 18px; border-radius: 20px; background: var(--card);
+      border: 2px solid var(--border); cursor: pointer; font-size: 0.84rem;
+      font-weight: 500; white-space: nowrap; transition: all 0.15s; font-family: inherit;
     }
     .tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .tab:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
@@ -93,97 +70,137 @@
     /* ── 섹션 제목 ── */
     .section-title {
       font-size: 0.95rem; font-weight: 700; color: #555;
-      margin: 20px 0 12px;
-      display: flex; align-items: center; gap: 8px;
+      margin: 22px 0 12px; display: flex; align-items: center; gap: 8px;
     }
     .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ── HOT 섹션 ── */
+    .hot-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; margin: 0 -4px; }
+    .hot-scroll::-webkit-scrollbar { display: none; }
+    .hot-list { display: flex; gap: 10px; padding: 4px 4px 8px; width: max-content; }
+    .hot-card {
+      width: 150px; background: var(--card); border-radius: var(--radius);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07); text-decoration: none;
+      color: inherit; overflow: hidden; transition: transform 0.15s, box-shadow 0.15s;
+      border: 2px solid transparent; flex-shrink: 0;
+    }
+    .hot-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.12); border-color: var(--border); }
+    .hot-card-img {
+      width: 100%; height: 110px; object-fit: cover; background: var(--bg);
+      display: block;
+    }
+    .hot-card-placeholder {
+      width: 100%; height: 110px; background: linear-gradient(135deg, #f0e0f5, var(--border));
+      display: flex; align-items: center; justify-content: center; font-size: 2rem;
+    }
+    .hot-card-body { padding: 10px 10px 12px; }
+    .hot-card-title {
+      font-size: 0.78rem; font-weight: 500; color: var(--text);
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      line-height: 1.4; margin-bottom: 6px;
+    }
+    .hot-card-price { font-size: 0.95rem; font-weight: 700; color: var(--primary); }
+    .hot-card-badge { font-size: 0.68rem; color: var(--muted); margin-top: 3px; }
+
+    /* ── 즐겨찾기 ── */
+    .fav-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+    .fav-chip {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 14px; border-radius: 20px;
+      background: linear-gradient(135deg, #f3eeff, #fce4f5);
+      border: 2px solid var(--border); cursor: pointer;
+      font-size: 0.85rem; font-weight: 600; transition: all 0.15s;
+    }
+    .fav-chip:hover { border-color: var(--primary); }
+    .fav-chip .fav-x { font-size: 0.8rem; color: var(--muted); margin-left: 2px; }
 
     /* ── 그룹 시세 카드 ── */
     .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
     .stat-card {
-      background: var(--card); border-radius: var(--radius);
-      padding: 14px 16px; cursor: pointer;
-      border: 2px solid transparent; transition: all 0.15s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      background: var(--card); border-radius: var(--radius); padding: 14px 16px;
+      cursor: pointer; border: 2px solid transparent; transition: all 0.15s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative;
     }
     .stat-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.1); }
     .stat-card.selected { border-color: var(--primary); background: var(--primary-light); }
-    .stat-card .g-name { font-weight: 700; font-size: 0.92rem; }
-    .stat-card .g-avg { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-top: 5px; }
-    .stat-card .g-sub { font-size: 0.73rem; color: var(--muted); margin-top: 2px; }
+    .g-name { font-weight: 700; font-size: 0.92rem; padding-right: 22px; }
+    .g-avg { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-top: 5px; }
+    .g-sub { font-size: 0.73rem; color: var(--muted); margin-top: 2px; }
+    .star-btn {
+      position: absolute; top: 10px; right: 10px;
+      background: none; border: none; cursor: pointer;
+      font-size: 1rem; line-height: 1; padding: 2px;
+      transition: transform 0.15s;
+    }
+    .star-btn:hover { transform: scale(1.3); }
 
     /* ── 멤버 카드 ── */
     .member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
     .member-card {
-      background: var(--card); border-radius: 12px;
-      padding: 12px 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      cursor: pointer; border: 2px solid transparent; transition: all 0.15s;
+      background: var(--card); border-radius: 12px; padding: 12px 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer;
+      border: 2px solid transparent; transition: all 0.15s; position: relative;
     }
     .member-card:hover { border-color: var(--accent); }
     .member-card.selected { border-color: var(--primary); background: var(--primary-light); }
-    .member-card .m-name { font-weight: 700; font-size: 0.88rem; }
-    .member-card .m-price { font-size: 0.98rem; font-weight: 700; color: var(--accent); margin-top: 4px; }
-    .member-card .m-count { font-size: 0.71rem; color: var(--muted); margin-top: 2px; }
+    .m-name { font-weight: 700; font-size: 0.88rem; padding-right: 20px; }
+    .m-price { font-size: 0.98rem; font-weight: 700; color: var(--accent); margin-top: 4px; }
+    .m-count { font-size: 0.71rem; color: var(--muted); margin-top: 2px; }
+    .member-card .star-btn { top: 8px; right: 8px; font-size: 0.9rem; }
 
-    /* ── 필터 바 ── */
+    /* ── 필터 ── */
     .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
     .filter-bar select {
       padding: 8px 12px; border: 2px solid var(--border); border-radius: 10px;
-      font-size: 0.85rem; font-family: inherit; background: var(--card);
-      color: var(--text); outline: none; cursor: pointer;
+      font-size: 0.85rem; font-family: inherit; background: var(--card); color: var(--text); outline: none; cursor: pointer;
     }
     .filter-bar select:focus { border-color: var(--primary); }
-
-    /* 가격 프리셋 버튼 */
     .price-presets { display: flex; gap: 6px; flex-wrap: wrap; }
     .preset-btn {
-      padding: 7px 13px; border-radius: 20px;
-      background: var(--card); border: 2px solid var(--border);
-      font-size: 0.78rem; font-weight: 600; font-family: inherit;
-      cursor: pointer; transition: all 0.15s; white-space: nowrap; color: var(--text);
+      padding: 7px 13px; border-radius: 20px; background: var(--card);
+      border: 2px solid var(--border); font-size: 0.78rem; font-weight: 600;
+      font-family: inherit; cursor: pointer; transition: all 0.15s; white-space: nowrap; color: var(--text);
     }
     .preset-btn:hover { border-color: var(--accent); color: var(--accent); }
     .preset-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-
-    /* 공유 버튼 */
     .share-btn {
-      margin-left: auto;
-      padding: 7px 16px; border-radius: 20px;
+      margin-left: auto; padding: 7px 16px; border-radius: 20px;
       background: var(--card); border: 2px solid var(--border);
-      font-size: 0.82rem; font-weight: 600; font-family: inherit;
-      cursor: pointer; transition: all 0.15s; color: var(--text);
-      display: flex; align-items: center; gap: 5px;
+      font-size: 0.82rem; font-weight: 600; font-family: inherit; cursor: pointer;
+      transition: all 0.15s; color: var(--text); display: flex; align-items: center; gap: 5px;
     }
     .share-btn:hover { border-color: var(--primary); color: var(--primary); }
 
-    /* ── 결과 헤더 ── */
-    .result-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-    .result-info { font-size: 0.82rem; color: var(--muted); }
-
     /* ── 거래 목록 ── */
+    .result-info { font-size: 0.82rem; color: var(--muted); margin-bottom: 10px; }
     .listings { display: flex; flex-direction: column; gap: 8px; }
     .listing-card {
-      background: var(--card); border-radius: var(--radius);
-      padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start;
+      background: var(--card); border-radius: var(--radius); padding: 12px 14px;
+      display: flex; gap: 12px; align-items: flex-start;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-decoration: none; color: inherit;
       transition: box-shadow 0.15s; border: 2px solid transparent;
     }
     .listing-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); border-color: var(--border); }
+    .listing-img-wrap { position: relative; flex-shrink: 0; cursor: zoom-in; }
     .listing-img {
-      width: 60px; height: 60px; border-radius: 10px;
-      object-fit: cover; flex-shrink: 0; background: var(--bg);
+      width: 64px; height: 64px; border-radius: 10px; object-fit: cover;
+      display: block; background: var(--bg); transition: opacity 0.15s;
     }
+    .listing-img:hover { opacity: 0.85; }
     .listing-img-placeholder {
-      width: 60px; height: 60px; border-radius: 10px;
+      width: 64px; height: 64px; border-radius: 10px;
       background: linear-gradient(135deg, #f0e0f5, var(--border));
-      flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+    }
+    .zoom-hint {
+      position: absolute; bottom: 3px; right: 3px;
+      background: rgba(0,0,0,0.45); color: #fff; border-radius: 4px;
+      font-size: 0.6rem; padding: 1px 4px; pointer-events: none;
     }
     .listing-info { flex: 1; min-width: 0; }
-    /* 제목 2줄 표시 */
     .listing-title {
-      font-size: 0.88rem; font-weight: 500;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-      overflow: hidden; line-height: 1.4;
+      font-size: 0.88rem; font-weight: 500; line-height: 1.4;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
     .listing-meta { margin-top: 5px; display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
     .badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
@@ -191,8 +208,7 @@
     .badge-group { background: #e8f0fe; color: #3a60c8; }
     .badge-member { background: #e8fce8; color: #2a8a2a; }
     .listing-date { font-size: 0.7rem; color: var(--muted); }
-    .listing-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
-    .listing-price { font-weight: 700; font-size: 1.05rem; color: var(--primary); white-space: nowrap; }
+    .listing-price { font-weight: 700; font-size: 1.05rem; color: var(--primary); white-space: nowrap; flex-shrink: 0; align-self: center; }
 
     /* ── 더보기 ── */
     .load-more {
@@ -204,9 +220,7 @@
     .load-more:hover { background: var(--accent); color: #fff; }
 
     /* ── 빈 상태 ── */
-    .empty-state {
-      text-align: center; padding: 48px 20px; color: var(--muted);
-    }
+    .empty-state { text-align: center; padding: 48px 20px; color: var(--muted); }
     .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
     .empty-state p { font-size: 0.95rem; margin-bottom: 16px; }
     .empty-state button {
@@ -215,12 +229,31 @@
       font-size: 0.9rem; font-weight: 700; font-family: inherit; cursor: pointer;
     }
 
+    /* ── 라이트박스 ── */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.88); align-items: center; justify-content: center;
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 90vw; max-height: 88vh; border-radius: 12px;
+      object-fit: contain; box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+    .lightbox-close {
+      position: fixed; top: 18px; right: 22px;
+      color: #fff; font-size: 2rem; cursor: pointer; line-height: 1;
+      background: rgba(255,255,255,0.15); border: none;
+      border-radius: 50%; width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
     /* ── 토스트 ── */
     .toast {
       position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
       background: #1a1a2e; color: #fff; padding: 12px 24px; border-radius: 12px;
-      font-size: 0.88rem; font-weight: 600; z-index: 999;
-      transition: transform 0.3s ease; pointer-events: none;
+      font-size: 0.88rem; font-weight: 600; z-index: 9999;
+      transition: transform 0.3s ease; pointer-events: none; white-space: nowrap;
     }
     .toast.show { transform: translateX(-50%) translateY(0); }
 
@@ -237,11 +270,12 @@
       header h1 { font-size: 1.5rem; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .member-grid { grid-template-columns: repeat(3, 1fr); }
-      .filter-bar { gap: 6px; }
       .filter-bar select { font-size: 0.8rem; padding: 7px 10px; }
-      .listing-img, .listing-img-placeholder { width: 52px; height: 52px; }
+      .listing-img, .listing-img-placeholder { width: 56px; height: 56px; }
       .listing-price { font-size: 0.95rem; }
       .share-btn span { display: none; }
+      .hot-card { width: 130px; }
+      .hot-card-img, .hot-card-placeholder { height: 90px; }
     }
   </style>
 </head>
@@ -257,7 +291,6 @@
   <div class="last-updated" id="lastUpdated"></div>
 </header>
 
-<!-- sticky 탭 -->
 <div class="tabs-outer">
   <div class="tabs-scroll-wrap">
     <div class="tabs-wrap">
@@ -269,6 +302,16 @@
 </div>
 
 <main>
+  <!-- HOT 포카 -->
+  <div class="section-title">🔥 지금 HOT 포카</div>
+  <div class="hot-scroll"><div class="hot-list" id="hotList"></div></div>
+
+  <!-- 즐겨찾기 -->
+  <div id="favSection" style="display:none">
+    <div class="section-title">⭐ 즐겨찾기</div>
+    <div class="fav-grid" id="favGrid"></div>
+  </div>
+
   <!-- 그룹 시세 -->
   <div class="section-title">그룹별 평균 시세</div>
   <div class="stats-grid" id="statsGrid">
@@ -281,7 +324,7 @@
     <div class="member-grid" id="memberGrid"></div>
   </div>
 
-  <!-- 필터 바 -->
+  <!-- 거래글 -->
   <div class="section-title" id="listingTitle">최근 거래글</div>
   <div class="filter-bar">
     <select id="sortSelect" onchange="applyFilter()">
@@ -289,7 +332,7 @@
       <option value="price_asc">낮은 가격순</option>
       <option value="price_desc">높은 가격순</option>
     </select>
-    <div class="price-presets" id="pricePresets">
+    <div class="price-presets">
       <button class="preset-btn active" data-min="0" data-max="Infinity" onclick="setPreset(this)">전체</button>
       <button class="preset-btn" data-min="0" data-max="9999" onclick="setPreset(this)">1만원 미만</button>
       <button class="preset-btn" data-min="10000" data-max="29999" onclick="setPreset(this)">1~3만원</button>
@@ -299,15 +342,18 @@
     <button class="share-btn" onclick="copyLink()">🔗 <span>링크 복사</span></button>
   </div>
 
-  <div class="result-header">
-    <div class="result-info" id="resultInfo"></div>
-  </div>
-
+  <div class="result-info" id="resultInfo"></div>
   <div class="listings" id="listingsContainer"></div>
   <button class="load-more" id="loadMoreBtn" style="display:none" onclick="loadMore()">더 보기</button>
 </main>
 
-<!-- 토스트 메시지 -->
+<!-- 라이트박스 -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="" />
+</div>
+
+<!-- 토스트 -->
 <div class="toast" id="toast"></div>
 
 <script>
@@ -319,12 +365,111 @@ let displayedCount = 20;
 let priceMin = 0;
 let priceMax = Infinity;
 
-/* ── 데이터 로드 ── */
+/* ── 즐겨찾기 (localStorage) ── */
+function getFavs() {
+  try { return JSON.parse(localStorage.getItem("pocafav") || "{}"); } catch { return {}; }
+}
+function saveFavs(f) { localStorage.setItem("pocafav", JSON.stringify(f)); }
+
+function isFavGroup(g) { const f = getFavs(); return (f.groups || []).includes(g); }
+function isFavMember(g, m) { const f = getFavs(); return ((f.members || {})[g] || []).includes(m); }
+
+function toggleFavGroup(g, e) {
+  e.stopPropagation();
+  const f = getFavs();
+  f.groups = f.groups || [];
+  f.groups = f.groups.includes(g) ? f.groups.filter(x => x !== g) : [...f.groups, g];
+  saveFavs(f);
+  renderStatsGrid(); renderFavs();
+  showToast(f.groups.includes(g) ? "⭐ 즐겨찾기에 추가됐어요!" : "즐겨찾기에서 제거됐어요");
+}
+
+function toggleFavMember(g, m, e) {
+  e.stopPropagation();
+  const f = getFavs();
+  f.members = f.members || {};
+  f.members[g] = f.members[g] || [];
+  f.members[g] = f.members[g].includes(m) ? f.members[g].filter(x => x !== m) : [...f.members[g], m];
+  if (!f.members[g].length) delete f.members[g];
+  saveFavs(f);
+  renderMemberGrid(); renderFavs();
+  showToast(isFavMember(g, m) ? "⭐ 즐겨찾기에 추가됐어요!" : "즐겨찾기에서 제거됐어요");
+}
+
+function renderFavs() {
+  const f = getFavs();
+  const groups = f.groups || [];
+  const members = f.members || {};
+  const chips = [];
+  groups.forEach(g => chips.push({ label: g, group: g, member: null }));
+  Object.entries(members).forEach(([g, ms]) =>
+    ms.forEach(m => chips.push({ label: g + " · " + m, group: g, member: m }))
+  );
+  const sec = document.getElementById("favSection");
+  const grid = document.getElementById("favGrid");
+  if (!chips.length) { sec.style.display = "none"; return; }
+  sec.style.display = "block";
+  grid.innerHTML = chips.map(c => `
+    <div class="fav-chip" onclick="goFav('${escHtml(c.group)}','${c.member ? escHtml(c.member) : ''}')">
+      ⭐ ${escHtml(c.label)}
+      <span class="fav-x" onclick="removeFav(event,'${escHtml(c.group)}','${c.member ? escHtml(c.member) : ''}')">✕</span>
+    </div>`).join("");
+}
+
+function goFav(g, m) {
+  const tab = [...document.querySelectorAll(".tab")].find(t => t.textContent === g);
+  if (tab) selectGroup(g, tab);
+  else { currentGroup = g; currentMember = m || null; renderStatsGrid(); renderMemberGrid(); renderListings(); }
+  if (m) {
+    setTimeout(() => {
+      const mc = [...document.querySelectorAll(".member-card")].find(c => c.querySelector(".m-name")?.textContent === m);
+      if (mc) selectMember(m, mc);
+    }, 50);
+  }
+  scrollToListings();
+}
+
+function removeFav(e, g, m) {
+  e.stopPropagation();
+  const f = getFavs();
+  if (m) {
+    f.members = f.members || {};
+    f.members[g] = (f.members[g] || []).filter(x => x !== m);
+    if (!f.members[g].length) delete f.members[g];
+  } else {
+    f.groups = (f.groups || []).filter(x => x !== g);
+  }
+  saveFavs(f);
+  renderStatsGrid(); renderMemberGrid(); renderFavs();
+}
+
+/* ── HOT 섹션 ── */
+function renderHot() {
+  const items = (allData?.items || []).slice(0, 10);
+  const list = document.getElementById("hotList");
+  if (!items.length) { list.innerHTML = '<div style="color:var(--muted);font-size:.85rem;padding:8px">데이터 없음</div>'; return; }
+  list.innerHTML = items.map(item => `
+    <a class="hot-card" href="${item.link}" target="_blank" rel="noopener noreferrer">
+      ${item.image
+        ? `<img class="hot-card-img" src="${item.image}" alt="" loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+           <div class="hot-card-placeholder" style="display:none">💜</div>`
+        : `<div class="hot-card-placeholder">💜</div>`}
+      <div class="hot-card-body">
+        <div class="hot-card-title">${escHtml(item.title)}</div>
+        <div class="hot-card-price">${item.price.toLocaleString()}원</div>
+        <div class="hot-card-badge">${item.platform}${item.group ? " · " + item.group : ""}</div>
+      </div>
+    </a>`).join("");
+}
+
+/* ── 데이터 로드 + URL 복원 ── */
 async function loadData() {
   try {
     const resp = await fetch("data/prices.json?t=" + Date.now());
     if (!resp.ok) throw new Error();
     allData = await resp.json();
+    restoreFromURL();
     init();
   } catch {
     document.getElementById("statsGrid").innerHTML =
@@ -332,13 +477,38 @@ async function loadData() {
   }
 }
 
+function restoreFromURL() {
+  const p = new URLSearchParams(location.search);
+  currentGroup  = p.get("group")  || null;
+  currentMember = p.get("member") || null;
+  currentSearch = p.get("q")      || "";
+  if (currentSearch) document.getElementById("searchInput").value = currentSearch;
+}
+
+function updateURL() {
+  const p = new URLSearchParams();
+  if (currentGroup)  p.set("group",  currentGroup);
+  if (currentMember) p.set("member", currentMember);
+  if (currentSearch) p.set("q",      currentSearch);
+  const qs = p.toString();
+  history.replaceState(null, "", qs ? "?" + qs : location.pathname);
+}
+
 function init() {
   if (!allData) return;
   if (allData.last_updated)
     document.getElementById("lastUpdated").textContent = "마지막 업데이트: " + allData.last_updated;
   renderGroupTabs();
+  renderHot();
+  renderFavs();
   renderStatsGrid();
+  if (currentGroup) renderMemberGrid();
   renderListings();
+  // URL에서 복원된 경우 탭 활성화
+  if (currentGroup) {
+    const tab = [...document.querySelectorAll(".tab")].find(t => t.textContent === currentGroup);
+    if (tab) { document.querySelectorAll(".tab").forEach(t => t.classList.remove("active")); tab.classList.add("active"); }
+  }
 }
 
 /* ── 탭 ── */
@@ -358,14 +528,21 @@ function renderGroupTabs() {
 function selectGroup(group, el) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   el.classList.add("active");
-  // 선택된 탭이 보이도록 스크롤
   el.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
   currentGroup = group;
   currentMember = null;
   displayedCount = 20;
+  updateURL();
   renderStatsGrid();
   renderMemberGrid();
   renderListings();
+  if (group) scrollToListings();
+}
+
+function scrollToListings() {
+  setTimeout(() => {
+    document.getElementById("listingTitle").scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 80);
 }
 
 /* ── 그룹 시세 ── */
@@ -373,14 +550,14 @@ function renderStatsGrid() {
   const stats = allData.stats?.groups || {};
   const grid = document.getElementById("statsGrid");
   let entries = Object.entries(stats);
-  if (currentGroup) {
-    entries = entries.filter(([g]) => g === currentGroup);
-  } else {
-    entries = entries.sort((a, b) => b[1].count - a[1].count).slice(0, 24);
-  }
+  if (currentGroup) entries = entries.filter(([g]) => g === currentGroup);
+  else entries = entries.sort((a, b) => b[1].count - a[1].count).slice(0, 24);
   if (!entries.length) { grid.innerHTML = '<div class="empty-state"><p>데이터 없음</p></div>'; return; }
   grid.innerHTML = entries.map(([g, s]) => `
-    <div class="stat-card ${currentGroup === g ? 'selected' : ''}" onclick="selectGroup('${escHtml(g)}', this)">
+    <div class="stat-card ${currentGroup === g ? "selected" : ""}" onclick="selectGroup('${escHtml(g)}', this)">
+      <button class="star-btn" onclick="toggleFavGroup('${escHtml(g)}', event)" title="즐겨찾기">
+        ${isFavGroup(g) ? "⭐" : "☆"}
+      </button>
       <div class="g-name">${escHtml(g)}</div>
       <div class="g-avg">${s.avg.toLocaleString()}원</div>
       <div class="g-sub">최저 ${s.min.toLocaleString()} · ${s.count}건</div>
@@ -389,15 +566,18 @@ function renderStatsGrid() {
 
 /* ── 멤버 시세 ── */
 function renderMemberGrid() {
-  const section = document.getElementById("memberSection");
-  if (!currentGroup) { section.style.display = "none"; return; }
+  const sec = document.getElementById("memberSection");
+  if (!currentGroup) { sec.style.display = "none"; return; }
   const ms = allData.stats?.members?.[currentGroup] || {};
   const members = Object.entries(ms).sort((a, b) => b[1].count - a[1].count);
-  if (!members.length) { section.style.display = "none"; return; }
+  if (!members.length) { sec.style.display = "none"; return; }
   document.getElementById("memberSectionTitle").textContent = currentGroup + " 멤버별 시세";
-  section.style.display = "block";
+  sec.style.display = "block";
   document.getElementById("memberGrid").innerHTML = members.map(([m, s]) => `
-    <div class="member-card ${currentMember === m ? 'selected' : ''}" onclick="selectMember('${escHtml(m)}', this)">
+    <div class="member-card ${currentMember === m ? "selected" : ""}" onclick="selectMember('${escHtml(m)}', this)">
+      <button class="star-btn" onclick="toggleFavMember('${escHtml(currentGroup)}','${escHtml(m)}',event)" title="즐겨찾기">
+        ${isFavMember(currentGroup, m) ? "⭐" : "☆"}
+      </button>
       <div class="m-name">${escHtml(m)}</div>
       <div class="m-price">${s.avg.toLocaleString()}원</div>
       <div class="m-count">${s.count}건</div>
@@ -409,7 +589,9 @@ function selectMember(member, el) {
   currentMember = currentMember === member ? null : member;
   if (currentMember) el.classList.add("selected");
   displayedCount = 20;
+  updateURL();
   renderListings();
+  scrollToListings();
 }
 
 /* ── 가격 프리셋 ── */
@@ -426,7 +608,6 @@ function setPreset(btn) {
 function getFilteredItems() {
   if (!allData?.items) return [];
   const sort = document.getElementById("sortSelect")?.value || "date";
-
   let items = allData.items.filter(item => {
     if (currentGroup && item.group !== currentGroup) return false;
     if (currentMember && item.member !== currentMember) return false;
@@ -439,17 +620,15 @@ function getFilteredItems() {
     }
     return true;
   });
-
   if (sort === "price_asc") items.sort((a, b) => a.price - b.price);
   else if (sort === "price_desc") items.sort((a, b) => b.price - a.price);
-
   return items;
 }
 
 function renderListings() {
   const items = getFilteredItems();
   const container = document.getElementById("listingsContainer");
-  const loadMoreBtn = document.getElementById("loadMoreBtn");
+  const btn = document.getElementById("loadMoreBtn");
 
   let title = "최근 거래글";
   if (currentMember) title = currentMember + " 포카 거래글";
@@ -459,7 +638,6 @@ function renderListings() {
   document.getElementById("resultInfo").textContent = "총 " + items.length.toLocaleString() + "건";
 
   const slice = items.slice(0, displayedCount);
-
   if (!slice.length) {
     container.innerHTML = `
       <div class="empty-state">
@@ -469,41 +647,43 @@ function renderListings() {
            '조건에 맞는 거래글이 없어요.'}</p>
         <button onclick="resetAll()">전체 보기로 돌아가기</button>
       </div>`;
-    loadMoreBtn.style.display = "none";
+    btn.style.display = "none";
     return;
   }
 
   container.innerHTML = slice.map(item => `
     <a class="listing-card" href="${item.link}" target="_blank" rel="noopener noreferrer">
-      ${item.image
-        ? `<img class="listing-img" src="${item.image}" alt="" loading="lazy"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-           <div class="listing-img-placeholder" style="display:none">💜</div>`
-        : `<div class="listing-img-placeholder">💜</div>`}
+      <div class="listing-img-wrap" onclick="openLightbox(event,'${item.image ? escAttr(item.image) : ''}')">
+        ${item.image
+          ? `<img class="listing-img" src="${item.image}" alt="" loading="lazy"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+             <div class="listing-img-placeholder" style="display:none">💜</div>
+             <span class="zoom-hint">🔍</span>`
+          : `<div class="listing-img-placeholder">💜</div>`}
+      </div>
       <div class="listing-info">
         <div class="listing-title">${escHtml(item.title)}</div>
         <div class="listing-meta">
           <span class="badge badge-platform">${item.platform}</span>
-          ${item.group ? `<span class="badge badge-group">${escHtml(item.group)}</span>` : ""}
+          ${item.group  ? `<span class="badge badge-group">${escHtml(item.group)}</span>` : ""}
           ${item.member ? `<span class="badge badge-member">${escHtml(item.member)}</span>` : ""}
           <span class="listing-date">${item.date || ""}</span>
         </div>
       </div>
-      <div class="listing-right">
-        <div class="listing-price">${item.price.toLocaleString()}원</div>
-      </div>
+      <div class="listing-price">${item.price.toLocaleString()}원</div>
     </a>`).join("");
 
-  loadMoreBtn.style.display = items.length > displayedCount ? "block" : "none";
+  btn.style.display = items.length > displayedCount ? "block" : "none";
 }
 
 function loadMore() {
   const prev = displayedCount;
   displayedCount += 20;
   renderListings();
-  // 새로 추가된 첫 번째 항목으로 부드럽게 스크롤
-  const cards = document.querySelectorAll(".listing-card");
-  if (cards[prev]) cards[prev].scrollIntoView({ behavior: "smooth", block: "start" });
+  setTimeout(() => {
+    const cards = document.querySelectorAll(".listing-card");
+    if (cards[prev]) cards[prev].scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 60);
 }
 
 function applyFilter() { displayedCount = 20; renderListings(); }
@@ -511,6 +691,7 @@ function applyFilter() { displayedCount = 20; renderListings(); }
 function doSearch() {
   currentSearch = document.getElementById("searchInput").value.trim();
   currentGroup = null; currentMember = null; displayedCount = 20;
+  updateURL();
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   document.querySelector(".tab").classList.add("active");
   renderStatsGrid(); renderMemberGrid(); renderListings();
@@ -524,8 +705,23 @@ function resetAll() {
   document.querySelector(".tab").classList.add("active");
   document.querySelectorAll(".preset-btn").forEach(b => b.classList.remove("active"));
   document.querySelector(".preset-btn").classList.add("active");
+  updateURL();
   renderStatsGrid(); renderMemberGrid(); renderListings();
 }
+
+/* ── 라이트박스 ── */
+function openLightbox(e, src) {
+  if (!src) return;
+  e.preventDefault(); e.stopPropagation();
+  document.getElementById("lightboxImg").src = src;
+  document.getElementById("lightbox").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeLightbox() {
+  document.getElementById("lightbox").classList.remove("open");
+  document.body.style.overflow = "";
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeLightbox(); });
 
 /* ── 링크 복사 ── */
 function copyLink() {
@@ -537,12 +733,17 @@ function showToast(msg) {
   const t = document.getElementById("toast");
   t.textContent = msg;
   t.classList.add("show");
-  setTimeout(() => t.classList.remove("show"), 2500);
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove("show"), 2500);
 }
 
 function escHtml(s) {
   if (!s) return "";
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function escAttr(s) {
+  if (!s) return "";
+  return String(s).replace(/'/g, "&#39;").replace(/"/g,"&quot;");
 }
 
 document.getElementById("searchInput").addEventListener("keydown", e => {
